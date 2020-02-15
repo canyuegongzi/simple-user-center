@@ -1,8 +1,8 @@
 ## 用戶组织权限管理系统
 ### 系统描述
-#### 前端地址： [https://github.com/canyuegongzi/simple-user-center-web.git]()
+#### 前端地址： [https://github.com/canyuegongzi/simple-user-center-web]()
 **系统前端基于Vue +ElementUi + typeScript构建**
-#### 后端地址： [https://github.com/canyuegongzi/simple-user-center.git]()
+#### 后端地址： [https://github.com/canyuegongzi/simple-user-center]()
 **系统后端基于node + nest.js +mysql构建**
 ### 系统结构
 !['系统架构图'](./docs/images/BSP系统.png)
