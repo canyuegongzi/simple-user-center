@@ -4,9 +4,9 @@ const config = {
     tokenSetTimeOut: 7200,
 };
 export const mysqlConfig = {
-    host: '47.106.104.22',
+    host: '127.0.0.1',
     userName: 'root',
-    password: 'root',
+    password: '123456',
 };
 export const redisConfig = {
     name: 'user_token',
