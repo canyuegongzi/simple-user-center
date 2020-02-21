@@ -177,6 +177,7 @@ export class UserController {
   public async forgetPass(@Body('email') params: string) {
     try {
       const res = await this.userService.forgetPass(params);
+      console.log(res);
       return { code: 200, message: '操作成功', success: true };
     } catch (e) {
       return { code: 200, message: e.errorMessage, success: false };

@@ -7,7 +7,7 @@ import {DeleteAuthorityDto} from '../../model/DTO/authority/delete_authority.dto
 import {QueryAuthorityDto} from '../../model/DTO/authority/query_authority.dto';
 import {ApiException} from '../../common/error/exceptions/api.exception';
 import {ApiErrorCode} from '../../config/api-error-code.enum';
-import {listToTree} from '../../utils/tree-data';
+import {listConvertTree, listToTree} from '../../utils/tree-data';
 import {Authority} from '../../model/entity/authority.entity';
 import {QueryMenuDto} from '../../model/DTO/authority/query_menus.dto';
 import {User} from '../../model/entity/user.entity';
@@ -178,8 +178,9 @@ export class AuthorityService {
       console.log(res[0][0].authority);
       let menus = [];
       if (res[0][0].authority.length) {
-          menus = listToTree(res[0][0].authority, 'id', 'parentId', 'children');
+            menus = listToTree(res[0][0].authority, 'id', 'parentId', 'children');
       }
+      console.log(menus);
       return menus;
     } catch (e) {
       throw new ApiException(e.errorMessage, ApiErrorCode.AUTHORITY_LIST_FILED, 200);

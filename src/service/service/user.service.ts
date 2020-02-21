@@ -10,7 +10,7 @@ import {ApiErrorCode} from '../../config/api-error-code.enum';
 import {User} from '../../model/entity/user.entity';
 import {formatDate} from '../../utils/data-time';
 import {emailConfig} from '../../config/config';
-import {CreateUserRegisterDto} from "../../model/DTO/user/creat_user_register.dto";
+import {CreateUserRegisterDto} from '../../model/DTO/user/creat_user_register.dto';
 // tslint:disable-next-line:no-var-requires
 const nodemailer = require('nodemailer');
 
@@ -338,6 +338,10 @@ export class UserService {
           } catch (e) {
               throw new ApiException('邮箱不存在', ApiErrorCode.USER_LIST_FILED, 200);
           }
+          console.log(user)
+          if (!user) {
+              throw new ApiException('用户不存在', ApiErrorCode.USER_LIST_FILED, 200);
+          }
           let mailOptions = {
               from: emailConfig.fromUser, // sender address
               to: params, // list of receivers
@@ -353,7 +357,7 @@ export class UserService {
           }
       }catch (e) {
           console.log(e);
-          throw new ApiException('操作失败', ApiErrorCode.USER_LIST_FILED, 200);
+          throw new ApiException(e.errorMessage, ApiErrorCode.USER_LIST_FILED, 200);
       }
   }
 

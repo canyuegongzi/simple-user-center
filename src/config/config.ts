@@ -4,19 +4,20 @@ const config = {
     tokenSetTimeOut: 7200,
 };
 export const mysqlConfig = {
-    host: '127.0.0.1',
+    host: '47.106.104.22',
     userName: 'root',
-    password: '123456',
+    password: 'root',
 };
 export const redisConfig = {
     name: 'user_token',
-    url: 'redis://127.0.0.1:6379',
+    url: 'redis://47.106.104.22:6379',
+    // url: 'redis://127.0.0.1:6379',
 };
 
 export const emailConfig = {
-    authPass: '', // qq邮箱授权码
-    fromUser: '',
-    user: '',
+    authPass: 'mlemxnogjqcfecba', // qq邮箱授权码
+    fromUser: '"Marvin" <1970305447@qq.com>',
+    user: '1970305447@qq.com',
 };
 
 export default config;

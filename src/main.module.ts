@@ -10,7 +10,7 @@ import { AuthorityModule } from './module/authority.module';
 import {ConfigModule} from './module/config.module';
 import {join} from 'path';
 import {SystemModule} from './module/system.module';
-import {mysqlConfig} from "./config/config";
+import {mysqlConfig} from './config/config';
 
 @Module({
   imports: [

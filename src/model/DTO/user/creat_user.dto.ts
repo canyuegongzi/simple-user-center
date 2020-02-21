@@ -24,5 +24,7 @@ export class CreateUserDto {
   nick: string;
 
   id: any;
+  // 创建用户
+  other: any;
 
 }
