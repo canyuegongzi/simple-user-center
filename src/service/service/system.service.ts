@@ -111,7 +111,7 @@ export class SystemService {
             const res = await this.systemRepository
                 .createQueryBuilder('s')
                 .where(queryCondition, {
-                    name: `${query.name}`,
+                    name: `%${query.name}%`,
                     isDelete: 0,
                 })
                 .orderBy('s.name', 'ASC')

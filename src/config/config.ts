@@ -6,7 +6,7 @@ const config = {
 export const mysqlConfig = {
     host: '127.0.0.1',
     userName: 'root',
-    password: '123456',
+    password: 'root',
 };
 export const redisConfig = {
     name: 'user_token',

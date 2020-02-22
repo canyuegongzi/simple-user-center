@@ -112,7 +112,7 @@ export class AuthorityService {
       return  await this.authorityRepository
           .createQueryBuilder('a')
           .where(queryCondition, {
-            name: params.name,
+            name: `%${params.name}%`,
             system: params.system,
             isDelete: 0,
           })

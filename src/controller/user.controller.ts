@@ -22,6 +22,7 @@ import config, { redisConfig } from '../config/config';
 import { AuthGuard } from '@nestjs/passport';
 import { QueryUserDto } from '../model/DTO/user/query_user.dto';
 import {CreateUserRegisterDto} from '../model/DTO/user/creat_user_register.dto';
+import {User} from "../model/entity/user.entity";
 
 @Controller('user')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
@@ -181,6 +182,22 @@ export class UserController {
       return { code: 200, message: '操作成功', success: true };
     } catch (e) {
       return { code: 200, message: e.errorMessage, success: false };
+    }
+  }
+
+  @Post('findUserToken')
+  public async findUserToken(@Body('token') params: string) {
+    try {
+      let user: User;
+      const res = await this.authService.verifyUser(params);
+      if (res) {
+        user =  await this.userService.findOneByName(res.name);
+        return { code: 200, data: user, message: '操作成功', success: true };
+      } else {
+        return { code: 200, data: null, message: '操作成功', success: true };
+      }
+    } catch (e) {
+      return { code: 200, data: null, message: e.errorMessage, success: false };
     }
   }
 }

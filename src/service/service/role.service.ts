@@ -127,7 +127,7 @@ export class RoleService {
         const res = await this.roleRepository
             .createQueryBuilder('r')
             .where(queryCondition, {
-                name: `${query.name}`,
+                name: `%${query.name}%`,
                 isDelete: 0,
             })
             .orderBy('r.name', 'ASC')

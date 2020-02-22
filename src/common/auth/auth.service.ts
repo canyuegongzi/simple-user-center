@@ -26,6 +26,14 @@ export class AuthService {
   }
 
   /**
+   * 核查用户
+   * @param token
+   */
+  async verifyUser(token: string) {
+    return await this.jwtService.verify(token);
+  }
+
+  /**
    * 产生token
    * @param user
    */

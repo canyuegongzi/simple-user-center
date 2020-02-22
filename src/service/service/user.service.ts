@@ -172,7 +172,7 @@ export class UserService {
   public async findOneByName(name: string): Promise<User> {
       try {
           return await this.userRepository.findOne({ name });
-      }catch (e) {
+      } catch (e) {
           throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
       }
   }
@@ -184,7 +184,7 @@ export class UserService {
   public async findOneByEmail(email: string): Promise<User> {
       try {
           return await this.userRepository.findOne({ email });
-      }catch (e) {
+      } catch (e) {
           throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
       }
 
@@ -229,8 +229,8 @@ export class UserService {
                 .leftJoinAndSelect('u.role', 'r')
                 .leftJoinAndSelect('u.organizations', 'org', leftJoinCondition, leftJoinConditionOrganizations )
                 .where(queryCondition, {
-                                                      name: `${query.name}`,
-                                                      nick: `${query.nick}`,
+                                                      name: `%${query.name}%`,
+                                                      nick: `%${query.nick}%`,
                                                       roleId: query.roleId,
                                                       isDelete: query.isDel ? query.isDel : 0,
                                                       organizationId: query.orgId,
@@ -342,7 +342,7 @@ export class UserService {
           if (!user) {
               throw new ApiException('用户不存在', ApiErrorCode.USER_LIST_FILED, 200);
           }
-          let mailOptions = {
+          const mailOptions = {
               from: emailConfig.fromUser, // sender address
               to: params, // list of receivers
               subject: '密码', // Subject line
@@ -355,7 +355,7 @@ export class UserService {
               console.log(e);
               throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
           }
-      }catch (e) {
+      } catch (e) {
           console.log(e);
           throw new ApiException(e.errorMessage, ApiErrorCode.USER_LIST_FILED, 200);
       }
@@ -379,7 +379,7 @@ export class UserService {
                       // pass: 'mlemxnogjqcfecba',
                   },
               });
-          }catch (e) {
+          } catch (e) {
               reject(e);
           }
           transporter.sendMail(mailOptions, (error, info) => {

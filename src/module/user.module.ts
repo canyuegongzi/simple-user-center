@@ -8,6 +8,7 @@ import { UserService } from '../service/service/user.service';
 import {Role} from '../model/entity/role.entity';
 import {RedisModule} from 'nestjs-redis';
 import {redisConfig} from '../config/config';
+import {AuthService} from '../common/auth/auth.service';
 
 @Module({
   imports: [
