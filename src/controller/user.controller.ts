@@ -22,7 +22,7 @@ import config, { redisConfig } from '../config/config';
 import { AuthGuard } from '@nestjs/passport';
 import { QueryUserDto } from '../model/DTO/user/query_user.dto';
 import {CreateUserRegisterDto} from '../model/DTO/user/creat_user_register.dto';
-import {User} from "../model/entity/user.entity";
+import {User} from '../model/entity/user.entity';
 
 @Controller('user')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
@@ -31,8 +31,7 @@ export class UserController {
   constructor(
     @Inject(UserService) private readonly userService: UserService,
     @Inject(AuthService) private readonly authService: AuthService,
-  ) // @Inject(RedisService) private readonly redisService: RedisService,
-  {}
+  ) {}
 
   @Post('register')
   public async creatUser(@Body() createUserDto: CreateUserDto) {
@@ -148,6 +147,16 @@ export class UserController {
   public async getAllList() {
     try {
       const res = await this.userService.getAllList();
+      return { code: 200, data: res, message: '查询成功' };
+    } catch (e) {
+      return { code: 200, data: [], message: '查询失败' };
+    }
+  }
+
+  @Get('infoByIds')
+  public async getAllListByIds(@Query('ids') params: Array<number |string>) {
+    try {
+      const res = await this.userService.getAllListByIds(params);
       return { code: 200, data: res, message: '查询成功' };
     } catch (e) {
       return { code: 200, data: [], message: '查询失败' };

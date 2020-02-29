@@ -271,6 +271,19 @@ export class UserService {
         }
     }
 
+    /**
+     * 查询用户列表根据ids
+     * @param query
+     */
+    public async getAllListByIds(ids: Array<number | string>) {
+        try {
+            console.log(ids);
+            return await this.userRepository.findByIds(ids);
+        } catch (e) {
+            throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
+        }
+    }
+
   /**
    * 删除用户
    * @param params
@@ -384,7 +397,6 @@ export class UserService {
           }
           transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
-                  console.log(error);
                   reject(error);
               }
               resolve(true);
