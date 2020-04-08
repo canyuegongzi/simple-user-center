@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import {CacheModule, Module} from '@nestjs/common';
 import { RedisModule} from 'nestjs-redis';
+import * as redisStore from 'cache-manager-redis-store';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './module/user.module';
@@ -10,7 +11,7 @@ import { AuthorityModule } from './module/authority.module';
 import {ConfigModule} from './module/config.module';
 import {join} from 'path';
 import {SystemModule} from './module/system.module';
-import {mysqlConfig} from './config/config';
+import {mysqlConfig, redisCacheConfig} from './config/config';
 
 @Module({
   imports: [
@@ -26,7 +27,15 @@ import {mysqlConfig} from './config/config';
           entities: [join(__dirname, '**/**.entity{.ts,.js}')],
           synchronize: true,
         },
-    ), UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule,
+    ),
+      CacheModule.register({
+          store: redisStore,
+          host: redisCacheConfig.host,
+          port: redisCacheConfig.port,
+          ttl: redisCacheConfig.ttl, // seconds
+          max: redisCacheConfig.max, // seconds
+      }),
+      UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule,
   ],
   controllers: [ AppController ],
   providers: [ AppService ],

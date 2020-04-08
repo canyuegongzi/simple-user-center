@@ -9,4 +9,12 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('/ip')
+  getIp(): any {
+    return {
+      data: '5555',
+      code: 200,
+    };
+  }
 }

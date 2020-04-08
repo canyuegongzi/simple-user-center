@@ -1,4 +1,3 @@
-import * as jwt from 'jsonwebtoken';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
