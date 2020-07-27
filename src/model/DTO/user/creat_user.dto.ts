@@ -27,4 +27,6 @@ export class CreateUserDto {
   // 创建用户
   other: any;
 
+  phone: string;
+
 }

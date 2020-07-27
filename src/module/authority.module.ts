@@ -7,13 +7,14 @@ import {User} from '../model/entity/user.entity';
 import {Role} from '../model/entity/role.entity';
 import {RoleService} from '../service/service/role.service';
 import {UserService} from '../service/service/user.service';
+import {RedisCacheService} from '../service/service/redisCache.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Authority, User, Role]),
   ],
   controllers: [AuthorityController],
-  providers: [AuthorityService, RoleService, UserService],
+  providers: [AuthorityService, RoleService, UserService, RedisCacheService],
   exports: [],
 })
 export class AuthorityModule {}

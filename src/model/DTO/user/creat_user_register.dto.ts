@@ -15,4 +15,6 @@ export class CreateUserRegisterDto {
 
   id: any;
 
+  phone: string;
+
 }

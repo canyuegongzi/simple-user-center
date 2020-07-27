@@ -10,7 +10,6 @@ import {DeleteOrganizationDto} from '../model/DTO/organization/delete_organizati
 
 @Controller('organization')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
-// @UseGuards(RolesGuard)
 export class OrganizationController {
   constructor(
     @Inject(OrganizationService) private readonly organizationService: OrganizationService,
@@ -31,8 +30,7 @@ export class OrganizationController {
       if (res1)  {
         return  { code: 200, message: '操作成功', success: true };
       }
-    }catch (e) {
-      console.log(e);
+    } catch (e) {
       return  { code: 200, message: e.errorMessage, success: false };
     }
   }
@@ -46,7 +44,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.addUserToOrganization(addUserDto);
       return { code: 200, message: '操作成功', success: true };
-    }catch (e) {
+    } catch (e) {
       return  { code: 200, success: false,  message: e.errorMessage };
     }
   }
@@ -60,7 +58,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.getList(params);
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }
@@ -74,7 +72,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.getAllList(params);
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }
@@ -87,7 +85,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.getOrganizationUserTree();
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }
@@ -100,7 +98,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.getListOrganizationTree();
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }
@@ -113,7 +111,7 @@ export class OrganizationController {
     try {
       await this.organizationService.updateOrganization(params);
       return  { code: 200, message: '操作成功', success: true };
-    }catch (e) {
+    } catch (e) {
       return {code: 200, success: false, message: e.errorMessage};
     }
   }
@@ -123,7 +121,7 @@ export class OrganizationController {
     try {
       await this.organizationService.deleteOrganization(params);
       return  { code: 200, message: '操作成功', success: true };
-    }catch (e) {
+    } catch (e) {
       return {code: 200, success: false, message: e.errorMessage};
     }
   }
@@ -133,7 +131,7 @@ export class OrganizationController {
     try {
       const res = await this.organizationService.getOrganizationInfo(id);
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }

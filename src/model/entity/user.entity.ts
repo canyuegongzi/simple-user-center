@@ -22,14 +22,15 @@ export class User {
   @Column({
     nullable: true, // 因为此属性后来才加，不设置nullable无法新增此属性
     length: 100,
-    // 一般用repository.find不会出现此属性
-    // 在QueryBuilder中select entity也不会出现
     select: false,
   })
   password: string;
 
   @Column( {select: false} )
   email: string;
+
+  @Column( { default: ''} )
+  phone: string;
 
   @Column({nullable: true})
   age: string;
@@ -51,6 +52,9 @@ export class User {
 
   @Column({default: 0})
   isDelete: number;
+
+  @Column({default: false, comment: '是否完成身份验证'})
+  verification: boolean;
 
   @Column({default: '', nullable: true })
   crateTime: string;

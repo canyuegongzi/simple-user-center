@@ -11,9 +11,9 @@ export const mysqlConfig = {
 };
 export const redisConfig = {
     name: 'user_token',
-    url: 'redis://127.0.0.1:6379',
-    // url: 'redis://127.0.0.1:6379',
+    url: '127.0.0.1:6379',
 };
+// etc
 export const redisCacheConfig = {
     host: '127.0.0.1',
     port: 6379,
@@ -24,6 +24,12 @@ export const emailConfig = {
     authPass: '', // qq邮箱授权码
     fromUser: '',
     user: '',
+};
+
+export const kafkaConfig = {
+    url: '',
+    clientId: '',
+    groupId: '',
 };
 
 export default config;

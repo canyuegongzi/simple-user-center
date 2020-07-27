@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../../model/DTO/user/creat_user.dto';
@@ -11,8 +11,9 @@ import {User} from '../../model/entity/user.entity';
 import {formatDate} from '../../utils/data-time';
 import {emailConfig} from '../../config/config';
 import {CreateUserRegisterDto} from '../../model/DTO/user/creat_user_register.dto';
-// tslint:disable-next-line:no-var-requires
-const nodemailer = require('nodemailer');
+import {RedisCacheService} from './redisCache.service';
+import * as nodemailer from 'nodemailer';
+import {UniqueUser} from '../../model/DTO/user/unique_user';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+    @Inject(RedisCacheService)
+    private readonly redisCacheService: RedisCacheService,
   ) {
   }
 
@@ -55,6 +58,7 @@ export class UserService {
               email: user.email,
               nick: user.nick,
               address: user.address,
+              phone: user.phone,
               age: user.age,
             }])
             .execute();
@@ -92,6 +96,7 @@ export class UserService {
                       password: user.password,
                       name: user.name,
                       role,
+                      verification: true,
                       email: user.email,
                       nick: user.nick,
                   }])
@@ -153,6 +158,7 @@ export class UserService {
             'role.id',
             'u.email',
             'u.password',
+            'u.phone',
         ])
         .getOne();
       if (await res) {
@@ -321,7 +327,7 @@ export class UserService {
             .update(User)
             .set({desc: createUserDto.desc, nick: createUserDto.nick, name: createUserDto.name,
               password: createUserDto.password, role, address: createUserDto.address,
-              email: createUserDto.email, age: createUserDto.age, updateTime: formatDate() })
+              email: createUserDto.email, phone: createUserDto.phone, age: createUserDto.age, updateTime: formatDate() })
             .where('id = :id', { id: createUserDto.id })
             .execute();
       } catch (e) {
@@ -351,25 +357,24 @@ export class UserService {
           } catch (e) {
               throw new ApiException('邮箱不存在', ApiErrorCode.USER_LIST_FILED, 200);
           }
-          console.log(user)
           if (!user) {
               throw new ApiException('用户不存在', ApiErrorCode.USER_LIST_FILED, 200);
           }
           const mailOptions = {
-              from: emailConfig.fromUser, // sender address
+              from: '"系统用户安全认证中心（找回密码）" <1970305447@qq.com>',
               to: params, // list of receivers
-              subject: '密码', // Subject line
+              subject: '找回密码', // Subject line
               html: '<p>密码查询</p><p>用户名：' + user.name + '</p><p>密码：' + user.password + '</p>', // html body
           };
           try {
               const sendEmailResult = await this.sendMailer(mailOptions);
               return { success: true, data: sendEmailResult, message: '发送成功', code: 200};
           } catch (e) {
-              console.log(e);
+
               throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
           }
       } catch (e) {
-          console.log(e);
+
           throw new ApiException(e.errorMessage, ApiErrorCode.USER_LIST_FILED, 200);
       }
   }
@@ -396,12 +401,83 @@ export class UserService {
               reject(e);
           }
           transporter.sendMail(mailOptions, (error, info) => {
+              console.log(error);
               if (error) {
                   reject(error);
               }
+              console.log(info);
               resolve(true);
               console.log('Message sent: %s', info.messageId);
           });
       });
+  }
+
+  /**
+   * 发送邮件
+   */
+  public async sendEmailCode(userName: string, email: string) {
+      const code: any = this.makCode();
+      const mailOptions = {
+          from: '"系统用户安全认证中心（系统注册）" <1970305447@qq.com>', // sender address
+          to: email, // list of receivers
+          subject: '注册验证码', // Subject line
+          html: `验证码${code}，用于注册/登录，5分钟内有效。验证码提供给他人可能导致账号被盗，请勿泄漏，谨防被骗。`,
+      };
+      try {
+          const sendEmailResult = await this.sendMailer(mailOptions);
+          await this.redisCacheService.set(email, code, 3 * 60 * 1000);
+          return { success: true, data: sendEmailResult, message: '发送成功', code: 200};
+      } catch (e) {
+          throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
+      }
+  }
+
+  /**
+   * 验证邮箱验证码
+   */
+  public async verifyEmailCode(email: any, value: any) {
+      try {
+          const res = await this.redisCacheService.get(email);
+          return  res && res === value;
+      } catch (e) {
+          throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
+      }
+
+  }
+
+    /**
+     * 刷脸登录
+     * @param params
+     */
+  public  async faceLogin(params: LoginParamsDto) {
+
+  }
+
+  /**
+   * 产生一个code
+   */
+  protected makCode() {
+      let code = '';
+      for (let i = 1; i <= 6; i++) {
+          const num = Math.floor(Math.random() * 10);
+          code += num;
+      }
+      return code;
+  }
+
+  /**
+   * 用户信息验证
+   * @param params
+   */
+  public async uniqueUser(params: UniqueUser) {
+      try {
+          const queryObj: any = {};
+          if (params.name) {queryObj.name = params.name; }
+          if (params.email) {queryObj.email = params.email; }
+          const result = await this.userRepository.findOne(queryObj);
+          return !!!result;
+      } catch (e) {
+          throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
+      }
   }
 }

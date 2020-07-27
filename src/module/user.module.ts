@@ -6,9 +6,7 @@ import { AuthModule } from '../common/auth/auth.module';
 import { User } from '../model/entity/user.entity';
 import { UserService } from '../service/service/user.service';
 import {Role} from '../model/entity/role.entity';
-import {RedisModule} from 'nestjs-redis';
-import {redisConfig} from '../config/config';
-import {AuthService} from '../common/auth/auth.service';
+import {RedisCacheService} from '../service/service/redisCache.service';
 
 @Module({
   imports: [
@@ -18,7 +16,7 @@ import {AuthService} from '../common/auth/auth.service';
     TypeOrmModule.forFeature([User, Role]),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [ RedisCacheService, UserService],
   exports: [UserService],
 })
 export class UserModule {}
