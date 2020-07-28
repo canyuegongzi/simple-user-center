@@ -8,10 +8,12 @@ export const mysqlConfig = {
     host: '',
     userName: '',
     password: '',
+    // password: '123456',
 };
 export const redisConfig = {
     name: 'user_token',
     url: '127.0.0.1:6379',
+    // url: 'redis://127.0.0.1:6379',
 };
 // etc
 export const redisCacheConfig = {
@@ -28,8 +30,8 @@ export const emailConfig = {
 
 export const kafkaConfig = {
     url: '',
-    clientId: '',
-    groupId: '',
+    clientId: 'test-app-client',
+    groupId: 'test-app-group',
 };
 
 export default config;
