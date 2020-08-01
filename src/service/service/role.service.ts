@@ -10,17 +10,19 @@ import {QueryRoleDto} from '../../model/DTO/role/query_role.dto';
 import {AddAuthDto} from '../../model/DTO/role/add_auth';
 import {Authority} from '../../model/entity/authority.entity';
 import {formatDate} from '../../utils/data-time';
+import {ApiResource} from '../../model/entity/apiResource.entity';
+import {RoleApiResourceEntity} from '../../model/entity/roleApiResource.entity';
 
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
-    @InjectRepository(Authority)
-    private readonly authorityRepository: Repository<Authority>,
+    @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+    @InjectRepository(Authority) private readonly authorityRepository: Repository<Authority>,
+    @InjectRepository(ApiResource) private readonly apiResourceRepository: Repository<ApiResource>,
+    @InjectRepository(RoleApiResourceEntity) private readonly roleApiResourceEntityRepository: Repository<RoleApiResourceEntity>,
   ) {}
 
-  /*
+  /*ApiResource, RoleApiResourceEntity
    添加数据
   */
  public async creatRole(role: CreateRoleDto) {
@@ -180,10 +182,10 @@ export class RoleService {
                   .of(params.roleId)
                   .addAndRemove(authIds, role.authority.map( u => u.id));
               return await this.roleRepository.findOne(params.roleId, {relations: [ 'authority' ]});
-          }catch (e) {
+          } catch (e) {
               throw new ApiException(e.errorMessage || '操作失败', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
           }
-      }catch (e) {
+      } catch (e) {
           throw new ApiException(e.errorMessage, ApiErrorCode.ROLE_LIST_FAILED, 200);
       }
   }

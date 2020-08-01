@@ -1,0 +1,1 @@
+{"version":3,"file":"delete_apiResource.dto.js","sourceRoot":"","sources":["delete_apiResource.dto.ts"],"names":[],"mappings":";;;;;;;;AAAA,mDAAwC;AACxC,2EAAiE;AAEjE;IAAA;QACI,kBAAa,GAAW,CAAC,CAAC,CAAC,qCAAqC;IAIpE,CAAC;IADG;QADC,yBAAO,CAAC,EAAE,OAAO,EAAE,SAAS,EAAE,OAAO,EAAE,EAAE,SAAS,EAAE,kCAAY,CAAC,gBAAgB,EAAE,EAAE,CAAC;4CAC5D;IAC/B,2BAAC;CAAA,AALD,IAKC;AALY,oDAAoB"}

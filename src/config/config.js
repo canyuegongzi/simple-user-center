@@ -1,10 +1,12 @@
-const config = {
-    connectMicroservice: 3001, // 微服务端口
+"use strict";
+exports.__esModule = true;
+var config = {
+    connectMicroservice: 3001,
     port: 8881,
     tokenSetTimeOut: 7200,
     globalPrefix: 'simple-user-center/v1.0',
 };
-export const mysqlConfig = {
+exports.mysqlConfig = {
     // host: '47.106.104.22',
     // host: '148.70.150.131',
     host: 'localhost',
@@ -14,28 +16,26 @@ export const mysqlConfig = {
     // password: '123Ad123Ad',
     password: '123456',
 };
-export const redisConfig = {
+exports.redisConfig = {
     name: 'user_token',
     url: '127.0.0.1:6379',
-    // url: 'redis://127.0.0.1:6379',
 };
 // etc
-export const redisCacheConfig = {
+exports.redisCacheConfig = {
     host: '127.0.0.1',
     port: 6379,
-    ttl: 10, // seconds
-    max: 150, // seconds
+    ttl: 10,
+    max: 150,
 };
-export const emailConfig = {
-    authPass: 'tsdrnaaktxsebfbd', // qq邮箱授权码
+exports.emailConfig = {
+    authPass: 'tsdrnaaktxsebfbd',
     fromUser: '"Marvin" <1970305447@qq.com>',
     user: '1970305447@qq.com',
 };
-
-export const kafkaConfig = {
+exports.kafkaConfig = {
     url: '148.70.150.131:19092',
     clientId: 'test-app-client',
     groupId: 'test-app-group',
 };
-
-export default config;
+exports["default"] = config;
+//# sourceMappingURL=config.js.map

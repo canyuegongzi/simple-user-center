@@ -19,12 +19,9 @@ import {UniqueUser} from '../../model/DTO/user/unique_user';
 export class UserService {
   private transporter: any;
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
-    @Inject(RedisCacheService)
-    private readonly redisCacheService: RedisCacheService,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+    @Inject(RedisCacheService) private readonly redisCacheService: RedisCacheService,
   ) {
   }
 

@@ -16,6 +16,9 @@ import {Role} from './model/entity/role.entity';
 import {Organization} from './model/entity/organization.entity';
 import {System} from './model/entity/system.entity';
 import {KafkaTaskModule} from './module/kafkaTask.module';
+import {ApiResourceModule} from './module/apiResource.module';
+import {ApiResource} from './model/entity/apiResource.entity';
+import {RoleApiResourceEntity} from './model/entity/roleApiResource.entity';
 
 @Module({
   imports: [
@@ -24,11 +27,11 @@ import {KafkaTaskModule} from './module/kafkaTask.module';
         {
           type: 'mysql',
           host: mysqlConfig.host,
-          port: 7000,
+          port: mysqlConfig.port,
           username: mysqlConfig.userName,
           password: mysqlConfig.password,
           database: 'b_simple_user_center',
-          entities: [Authority, User, Role, Organization, System],
+          entities: [Authority, User, Role, Organization, System, ApiResource, RoleApiResourceEntity],
           synchronize: true,
         },
     ),
@@ -39,7 +42,7 @@ import {KafkaTaskModule} from './module/kafkaTask.module';
           ttl: redisCacheConfig.ttl, // seconds
           max: redisCacheConfig.max, // seconds
       }),
-      UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule, KafkaTaskModule,
+      UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule, KafkaTaskModule, ApiResourceModule,
   ],
   controllers: [ AppController ],
   providers: [ AppService ],
