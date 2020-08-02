@@ -8,14 +8,11 @@ export const mysqlConfig = {
     host: 'localhost',
     userName: 'root',
     port: 3306,
-    // port: 7000,
-    // password: '123Ad123Ad',
     password: '123456',
 };
 export const redisConfig = {
     name: 'user_token',
     url: '127.0.0.1:6379',
-    // url: 'redis://127.0.0.1:6379',
 };
 // etc
 export const redisCacheConfig = {
