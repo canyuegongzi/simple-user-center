@@ -8,20 +8,23 @@ export enum MessageType {
     CREATE,
     UPDATE,
 }
+const messageMap = {
+    0: '查询成功',
+    1: '删除成功',
+    2: '查询成功',
+    3: '添加成功',
+    4: '更新成功',
+}
 export class ResultData {
-    protected messageMap = {
-        GETLIST: '查询成功',
-        DELETE: '删除成功',
-        GETINFO: '查询成功',
-        CREATE: '添加成功',
-        UPDATE: '更新成功',
-    }
     public code: number;
     public message: string;
     public data: ReturnData;
-    constructor(messageType: MessageType, data = null) {
+    public success: boolean;
+    constructor(messageType: MessageType, data = null, success = true) {
+        console.log(messageType)
         this.code = 200;
-        this.message = this.messageMap[messageType];
+        this.message = messageMap[messageType];
         this.data = data;
+        this.success = success;
     }
 }

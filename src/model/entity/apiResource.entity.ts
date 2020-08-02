@@ -20,9 +20,6 @@ export class ApiResource {
     @Column()
     parentId: number;
 
-    @Column({default: '', nullable: true })
-    parentName: string;
-
     @Column({nullable: false})
     system: string;
 

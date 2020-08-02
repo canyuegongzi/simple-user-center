@@ -6,12 +6,13 @@ import {RoleApiResourceEntity} from '../model/entity/roleApiResource.entity';
 import {SystemService} from '../service/service/system.service';
 import {RedisCacheService} from '../service/service/redisCache.service';
 import {ApiResourceService} from '../service/service/apiResource.service';
+import {ApiResourceController} from '../controller/apiResource.controller';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([System, ApiResource, RoleApiResourceEntity]),
     ],
-    controllers: [],
+    controllers: [ApiResourceController],
     providers: [SystemService, RedisCacheService, ApiResourceService],
     exports: [],
 })

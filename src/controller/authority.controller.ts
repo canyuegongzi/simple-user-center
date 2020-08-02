@@ -28,7 +28,7 @@ export class AuthorityController {
       }
       const res1 = await this.authorityService.createAuthority(params);
       return {code: 200,  message: '操作成功', success: true};
-    }catch (e) {
+    } catch (e) {
       return {code: 200,  message: e.errorMessage, success: false};
     }
   }
@@ -42,7 +42,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.updateAuthority(params);
       return {code: 200,  message: '操作成功', success: true};
-    }catch (e) {
+    } catch (e) {
       return {code: 200,  message: e.errorMessage, success: false};
     }
   }
@@ -56,7 +56,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.deleteAuthority(params);
       return {code: 200, message: '操作成功', success: true};
-    }catch (e) {
+    } catch (e) {
       return {code: 200,  message: e.errorMessage, success: false};
     }
   }
@@ -70,7 +70,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.getAuthorityList(params);
       return {code: 200, data: {data: res[0], count: res[1]}, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: e.errorMessage};
     }
   }
@@ -84,7 +84,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.getAuthorityAllList(params);
       return {code: 200, data: {data: res[0], count: res[1]}, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: e.errorMessage};
     }
   }
@@ -98,7 +98,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.getAuthorityTree();
       return {code: 200, res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: e.errorMessage};
     }
   }
@@ -112,7 +112,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.getAuthInfo(id);
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
   }
@@ -126,7 +126,7 @@ export class AuthorityController {
     try {
       const res = await this.authorityService.getMenus(params);
       return {code: 200, data: res, message: '查询成功'};
-    }catch (e) {
+    } catch (e) {
       return {code: 200, data: [], message: e.errorMessage};
     }
   }

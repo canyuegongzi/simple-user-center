@@ -5,8 +5,6 @@ const config = {
     globalPrefix: 'simple-user-center/v1.0',
 };
 export const mysqlConfig = {
-    // host: '47.106.104.22',
-    // host: '148.70.150.131',
     host: 'localhost',
     userName: 'root',
     port: 3306,
@@ -27,13 +25,13 @@ export const redisCacheConfig = {
     max: 150, // seconds
 };
 export const emailConfig = {
-    authPass: 'tsdrnaaktxsebfbd', // qq邮箱授权码
-    fromUser: '"Marvin" <1970305447@qq.com>',
+    authPass: '', // qq邮箱授权码
+    fromUser: '"',
     user: '1970305447@qq.com',
 };
 
 export const kafkaConfig = {
-    url: '148.70.150.131:19092',
+    url: '',
     clientId: 'test-app-client',
     groupId: 'test-app-group',
 };

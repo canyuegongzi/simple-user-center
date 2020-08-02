@@ -12,18 +12,14 @@ import {Authority} from '../../model/entity/authority.entity';
 import {QueryMenuDto} from '../../model/DTO/authority/query_menus.dto';
 import {User} from '../../model/entity/user.entity';
 import {Role} from '../../model/entity/role.entity';
-import {ResultMenus} from '../../model/DTO/authority/result_menus.dto';
 import {formatDate} from '../../utils/data-time';
 
 @Injectable()
 export class AuthorityService {
   constructor(
-    @InjectRepository(Authority)
-    private readonly authorityRepository: Repository<Authority>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
+    @InjectRepository(Authority) private readonly authorityRepository: Repository<Authority>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
   ) {}
 
   /**
@@ -47,7 +43,7 @@ export class AuthorityService {
             path: params.path,
             parentId: params.parentId }])
           .execute();
-    }catch (e) {
+    } catch (e) {
       throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_CREATED_FILED, 200);
     }
   }
@@ -73,7 +69,7 @@ export class AuthorityService {
             path: params.path })
           .where('id = :id', { id: params.id })
           .execute();
-    }catch (e) {
+    } catch (e) {
       throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_UPDATE_FILED, 200);
     }
   }
@@ -90,7 +86,7 @@ export class AuthorityService {
           .set({isDelete: 1, deleteTime: formatDate()})
           .whereInIds(params)
           .execute();
-    }catch (e) {
+    } catch (e) {
       throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
     }
   }
@@ -175,12 +171,10 @@ export class AuthorityService {
             isDelete: 0,
           })
           .getManyAndCount();
-      console.log(res[0][0].authority);
       let menus = [];
       if (res[0][0].authority.length) {
             menus = listToTree(res[0][0].authority, 'id', 'parentId', 'children');
       }
-      console.log(menus);
       return menus;
     } catch (e) {
       throw new ApiException(e.errorMessage, ApiErrorCode.AUTHORITY_LIST_FILED, 200);
@@ -210,7 +204,7 @@ export class AuthorityService {
   public async findOneByCode(code: string): Promise<Authority> {
     try {
       return await this.authorityRepository.findOne({ code });
-    }catch (e) {
+    } catch (e) {
       throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_CODE_INFO_FILED, 200);
     }
   }
@@ -222,7 +216,7 @@ export class AuthorityService {
   public async getAuthInfo(id: any): Promise<Authority> {
     try {
       return await this.authorityRepository.findOne({ id });
-    }catch (e) {
+    } catch (e) {
       throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_CODE_INFO_FILED, 200);
     }
   }

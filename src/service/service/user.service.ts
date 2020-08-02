@@ -398,13 +398,10 @@ export class UserService {
               reject(e);
           }
           transporter.sendMail(mailOptions, (error, info) => {
-              console.log(error);
               if (error) {
                   reject(error);
               }
-              console.log(info);
               resolve(true);
-              console.log('Message sent: %s', info.messageId);
           });
       });
   }

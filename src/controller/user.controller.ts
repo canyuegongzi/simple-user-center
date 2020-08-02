@@ -1,16 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Inject,
-    Post,
-    Query,
-    Req,
-    Session,
-    UseGuards,
-    UseInterceptors,
-    HttpCode,
-} from '@nestjs/common';
+import {Body, Controller, Get, Inject, Post, Query, Req, Session, UseInterceptors, HttpCode} from '@nestjs/common';
 import { CreateUserDto } from '../model/DTO/user/creat_user.dto';
 import { LoginParamsDto } from '../model/DTO/user/login_params.dto';
 import { AuthService } from '../common/auth/auth.service';
@@ -24,7 +12,6 @@ import {UniqueUser} from '../model/DTO/user/unique_user';
 
 @Controller('user')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
-// @UseGuards(AuthGuard)
 export class UserController {
     constructor(
         @Inject(UserService) private readonly userService: UserService,
@@ -178,7 +165,6 @@ export class UserController {
                 return { code: 200, data: null, message: '操作成功', success: true };
             }
         } catch (e) {
-            console.log(e)
             return { code: 200, data: null, message: e.errorMessage, success: false };
         }
     }

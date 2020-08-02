@@ -8,7 +8,6 @@ import {CreateSystemDto} from '../model/DTO/system/create_system.dto';
 
 @Controller('system')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
-// @UseGuards(RolesGuard)
 export class SystemController {
   constructor(
       @Inject(SystemService) private readonly systemService: SystemService,

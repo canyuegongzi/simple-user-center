@@ -9,7 +9,6 @@ import {AddAuthDto} from '../model/DTO/role/add_auth';
 
 @Controller('role')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
-// @UseGuards(RolesGuard)
 export class RoleController {
   constructor(
     @Inject(RoleService) private readonly roleService: RoleService,
