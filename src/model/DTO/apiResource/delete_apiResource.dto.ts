@@ -11,8 +11,8 @@ export class DeleteApiResourceDto {
     type: number;
 
     // @IsNotEmpty({ message: '系统不能为空', context: { errorCode: ApiErrorCode.AUTHORITY_CREATED_FILED } })
-    system: number;
+    system: string;
 
     // @IsNotEmpty({ message: '系统不能为空', context: { errorCode: ApiErrorCode.AUTHORITY_CREATED_FILED } })
-    module: number;
+    module: string;
 }

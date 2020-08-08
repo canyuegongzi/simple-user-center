@@ -44,6 +44,7 @@ import {RoleApiResourceEntity} from './model/entity/roleApiResource.entity';
       }),
       UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule, KafkaTaskModule, ApiResourceModule,
   ],
+    /*&KafkaTaskModule*/
   controllers: [ AppController ],
   providers: [ AppService ],
 })

@@ -13,7 +13,8 @@ import {DeleteApiResourceDto} from '../../model/DTO/apiResource/delete_apiResour
 import {formatDate} from '../../utils/data-time';
 import {ApiException} from '../../common/error/exceptions/api.exception';
 import {ApiErrorCode} from '../../config/api-error-code.enum';
-import {Authority} from '../../model/entity/authority.entity';
+import {exportExcel, importExcel} from '../../utils/excel';
+import {listToTree} from "../../utils/tree-data";
 
 @Injectable()
 export class ApiResourceService {
@@ -48,7 +49,7 @@ export class ApiResourceService {
                     parentId: params.parentId }])
                 .execute();
         } catch (e) {
-            console.log(e)
+            console.log(e);
             throw new ApiException('操作成功', ApiErrorCode.ROLE_LIST_FAILED, 200);
         }
 
@@ -206,7 +207,7 @@ export class ApiResourceService {
                     return null;
             }
         } catch (e) {
-            console.log(e)
+            console.log(e);
             throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
         }
     }
@@ -249,6 +250,142 @@ export class ApiResourceService {
             return !!!result;
         } catch (e) {
             throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
+        }
+    }
+
+    /**
+     * 创建excel模板
+     */
+    public async createExcel({ filePath, rows, columns, sheetName }) {
+        return await exportExcel(columns, rows, sheetName, filePath);
+    }
+
+    /**
+     * 导入资源数据
+     */
+    public async importExcel(column, file, hasHeader, type) {
+        const list: ApiResource[] = await importExcel(column, file, hasHeader, type);
+        let modulesName: string[] = [];
+        const moduleMap = new Map();
+        const afterList: ApiResource[] = [];
+        const apiResourceList: ApiResource[] = list.map((item: ApiResource, index: number) => {
+            modulesName.push(item.module);
+            return {
+                ...item,
+                crateTime: formatDate(),
+                isDelete: 0,
+                type: 3,
+            };
+        });
+        modulesName = Array.from(new Set(modulesName));
+        for (let i = 0; i < modulesName.length; i++) {
+            const currentModule = await this.apiResourceRepository.findOne({code: modulesName[i]});
+            if (currentModule) {
+                moduleMap.set(modulesName[i], currentModule);
+            }
+        }
+        apiResourceList.forEach((item: ApiResource) => {
+            item.parentId = moduleMap.get(item.module) ?  moduleMap.get(item.module).id : null;
+            item.system = moduleMap.get(item.module) ?  moduleMap.get(item.module).system : null;
+            if (item.parentId && item.system) {
+                afterList.push(item);
+            }
+        });
+        try {
+            await this.apiResourceRepository
+                .createQueryBuilder('r')
+                .insert()
+                .into(ApiResource)
+                .values(afterList)
+                .execute();
+            return afterList;
+        } catch (e) {
+            console.log(e)
+            throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
+        }
+    }
+
+    /**
+     * 设置 excel 列头信息
+     * name 列名
+     * type 类型
+     * key 对应数据的 key
+     * size 大小
+     */
+    public getColumnDatas() {
+        return [
+            {
+                name: '接口名称',
+                type: 'String',
+                key: 'name',
+                size: 20,
+                index: 1,
+            },
+            {
+                name: '编码',
+                type: 'String',
+                key: 'code',
+                size: 20,
+                index: 2,
+            },
+            /*{
+                name: '所属系统',
+                type: 'Enum',
+                key: 'sex',
+                default: { 1: '女', 2: '男' },
+                size: 20,
+            },*/
+            {
+                name: '所属系统',
+                type: 'String',
+                key: 'system',
+                size: 20,
+                index: 3,
+            },
+            {
+                name: '所属模块',
+                type: 'String',
+                key: 'module',
+                size: 20,
+                index: 4,
+            },
+            {
+                name: '属性值',
+                type: 'String',
+                key: 'value',
+                size: 20,
+                index: 5,
+            },
+            {
+                name: '描述',
+                type: 'String',
+                key: 'desc',
+                size: 20,
+                index: 6,
+            },
+        ];
+    }
+
+    /**
+     * 获取要导出到 excel 的数据
+     */
+    public getRowDatas() {
+        return [];
+    }
+
+    /**
+     * 查询资源树
+     */
+    public async getAuthorityTree(): Promise<any> {
+        try {
+            const res = await this.apiResourceRepository
+                .createQueryBuilder('a')
+                .orderBy('a.name', 'ASC')
+                .getManyAndCount();
+            const treeData = listToTree(res[0], 'id', 'parentId', 'children');
+            return  { data: treeData, count: res[1]};
+        } catch (e) {
+            throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
         }
     }
 }

@@ -5,10 +5,12 @@ const config = {
     globalPrefix: 'simple-user-center/v1.0',
 };
 export const mysqlConfig = {
-    host: 'localhost',
+    // host: '',
+    host: '',
+    // host: 'localhost',
     userName: 'root',
-    port: 3306,
-    password: '123456',
+    port: 3606,
+    password: '',
 };
 export const redisConfig = {
     name: 'user_token',
@@ -23,8 +25,8 @@ export const redisCacheConfig = {
 };
 export const emailConfig = {
     authPass: '', // qq邮箱授权码
-    fromUser: '"',
-    user: '1970305447@qq.com',
+    fromUser: '',
+    user: '',
 };
 
 export const kafkaConfig = {

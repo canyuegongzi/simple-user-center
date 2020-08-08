@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Inject, Post, Query, UseInterceptors } from '@nestjs/common';
+import {Body, Controller, Get, Inject, Post, Query, Res, UploadedFile, UseInterceptors} from '@nestjs/common';
+import { Response } from 'express';
 import { TransformInterceptor } from '../common/shared/interceptors/transform.interceptor';
 import { LoggingInterceptor } from '../common/shared/interceptors/logging.interceptor';
 import {SystemService} from '../service/service/system.service';
@@ -8,6 +9,9 @@ import {UpdateApiResourceDto} from '../model/DTO/apiResource/update_apiResource.
 import {QueryApiResourceDto} from '../model/DTO/apiResource/query_apiResource.dto';
 import {DeleteApiResourceDto} from '../model/DTO/apiResource/delete_apiResource.dto';
 import {MessageType, ResultData} from '../common/result/ResultData';
+import {join} from 'path';
+import {existsSync, readFileSync} from 'fs';
+import {FileInterceptor} from '@nestjs/platform-express';
 
 @Controller('apiResource')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
@@ -28,7 +32,6 @@ export class ApiResourceController {
             await this.apiResourceService.createApiResource(params);
             return new ResultData(MessageType.CREATE, null, true);
         } catch (e) {
-            console.log(e)
             return new ResultData(MessageType.CREATE, null, false);
         }
     }
@@ -100,7 +103,6 @@ export class ApiResourceController {
             await this.apiResourceService.deleteResource(params);
             return new ResultData(MessageType.DELETE,  true);
         } catch (e) {
-            console.log(e)
             return new ResultData(MessageType.DELETE,  false);
         }
     }
@@ -142,6 +144,70 @@ export class ApiResourceController {
             return await this.apiResourceService.uniqueApiCode(system);
         } catch (e) {
             return false;
+        }
+    }
+
+    /**
+     * 下载模板
+     * @param res
+     */
+    @Get('template/download')
+    public async downloadExcel(@Res() res: Response): Promise<any> {
+        try {
+            const filePath = join(__dirname, './apiResourceTemplate.xlsx');
+            if (!existsSync(filePath)) {
+                await this.createExcel();
+            }
+            res.type('application/vnd.openxmlformats');
+            res.attachment('接口资源导入模板.xlsx');
+            res.send(readFileSync(filePath));
+        } catch (e) {
+            return new ResultData(MessageType.FILEERROR,  false);
+        }
+
+    }
+
+    /**
+     * 资源数据导入
+     * @param res
+     */
+    @Post('template/import')
+    @UseInterceptors(FileInterceptor('file'))
+    public async importExcel(@UploadedFile() file): Promise<ResultData> {
+        try {
+            const column = this.apiResourceService.getColumnDatas();
+            const list = await this.apiResourceService.importExcel(column, file.buffer, true, 'buffer');
+            return new ResultData(MessageType.GETLIST,  {data: [], count: list.length}, true);
+        } catch (e) {
+            return new ResultData(MessageType.FILEERROR,  false);
+        }
+
+    }
+
+    /**
+     * 创建excel
+     */
+    public async createExcel(): Promise<any> {
+        const params = {
+            rows: this.apiResourceService.getRowDatas(), // 要导出的数据
+            columns: this.apiResourceService.getColumnDatas(), // 列头信息
+            sheetName: '导出示例', // 工作簿名称
+            filePath: join(__dirname, './apiResourceTemplate.xlsx'),
+        };
+        return await this.apiResourceService.createExcel(params);
+    }
+
+    /**
+     * 获取功能列表
+     * @param params
+     */
+    @Get('tree')
+    public async getAuthorityTree() {
+        try {
+            const { data, count} = await this.apiResourceService.getAuthorityTree();
+            return new ResultData(MessageType.GETLIST,  {data, count}, true);
+        } catch (e) {
+            return {code: 200, data: [], message: e.errorMessage};
         }
     }
 }

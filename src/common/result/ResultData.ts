@@ -7,6 +7,7 @@ export enum MessageType {
     GETINFO,
     CREATE,
     UPDATE,
+    FILEERROR,
 }
 const messageMap = {
     0: '查询成功',
@@ -14,6 +15,7 @@ const messageMap = {
     2: '查询成功',
     3: '添加成功',
     4: '更新成功',
+    5: 'EXCEL失败',
 }
 export class ResultData {
     public code: number;
