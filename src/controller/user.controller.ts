@@ -53,16 +53,20 @@ export class UserController {
     @Post('login')
     @HttpCode(200)
     public async login(@Body() params: LoginParamsDto, @Req() req, @Session() session) {
-        const res = await this.userService.login(params);
-        if (session && session.userName && session.userName === params.name) {
-            return { code: 200, message: '你已经登陆' };
+        try {
+            const res: any = await this.userService.login(params);
+            if (session && session.userName && session.userName === params.name) {
+                return { code: 200, message: '你已经登陆' };
+            }
+            if (res) {
+                session.userName = params.name;
+                const resToken = await this.authService.creatToken({ name: params.name, userId: res.userId, roleId: res.roleId });
+                return { code: 200, message: '登录成功', data: resToken, success: true };
+            }
+        } catch (e) {
+            return { code: 200, message: '用户名或者密码错误', success: false };
         }
-        if (res) {
-            session.userName = params.name;
-            const resToken = await this.authService.creatToken({ name: params.name });
-            return { code: 200, message: '登录成功', data: resToken, success: true };
-        }
-        return { code: 200, message: '用户名或者密码错误', success: false };
+
     }
 
     @Post('loginOut')
@@ -158,9 +162,10 @@ export class UserController {
         try {
             let user: User;
             const res = await this.authService.verifyUser(params);
+            console.log(res)
             if (res) {
                 user =  await this.userService.findOneByName(res.name);
-                return { code: 200, data: user, message: '操作成功', success: true };
+                return { code: 200, data: this.userService.getTokenUserInfo(user), message: '操作成功', success: true };
             } else {
                 return { code: 200, data: null, message: '操作成功', success: true };
             }
@@ -218,7 +223,7 @@ export class UserController {
         }
         if (res) {
             session.userName = params.name;
-            const resToken = await this.authService.creatToken({ name: params.name });
+            const resToken = await this.authService.creatToken({ name: params.name, userId: res.userId, roleId: res.roleId });
             return { code: 200, message: '登录成功', data: resToken, success: true };
         }
         return { code: 200, message: '用户名或者密码错误', success: false };

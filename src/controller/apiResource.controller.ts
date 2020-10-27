@@ -202,10 +202,11 @@ export class ApiResourceController {
      * @param params
      */
     @Get('tree')
-    public async getAuthorityTree() {
+    public async getAuthorityTree(@Query('hasList') hasList: string = 'true') {
         try {
-            const { data, count} = await this.apiResourceService.getAuthorityTree();
-            return new ResultData(MessageType.GETLIST,  {data, count}, true);
+            const { data, count, listData } = await this.apiResourceService.getAuthorityTree();
+            const resData = hasList == 'true' ? {data, count, listData} : {data, count};
+            return hasList ? new ResultData(MessageType.GETLIST,  resData, true) : new ResultData(MessageType.GETLIST,  resData, true);
         } catch (e) {
             return {code: 200, data: [], message: e.errorMessage};
         }

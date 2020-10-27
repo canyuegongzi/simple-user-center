@@ -5,6 +5,7 @@ import {SystemService} from '../service/service/system.service';
 import {UpdateSystemDto} from '../model/DTO/system/update_system.dto';
 import {QuerySystemDto} from '../model/DTO/system/system_role.dto';
 import {CreateSystemDto} from '../model/DTO/system/create_system.dto';
+import {MessageType, ResultData} from "../common/result/ResultData";
 
 @Controller('system')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)
@@ -58,9 +59,9 @@ export class SystemController {
   public async deleteRole(@Body('id') id: Array<number| string>) {
     try {
       const res = await this.systemService.deleteSystem(id);
-      return {code: 200,  message: '删除成功', success: true};
+      return new ResultData(MessageType.DELETE,  true, true);
     } catch (e) {
-      return {code: 400, message: '删除失败', success: false};
+      return new ResultData(MessageType.DELETE,  false, false);
     }
   }
 

@@ -49,8 +49,7 @@ export class ApiResourceService {
                     parentId: params.parentId }])
                 .execute();
         } catch (e) {
-            console.log(e);
-            throw new ApiException('操作成功', ApiErrorCode.ROLE_LIST_FAILED, 200);
+            throw new ApiException('操作失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
         }
 
     }
@@ -78,7 +77,7 @@ export class ApiResourceService {
                 .where('id = :id', { id: params.id })
                 .execute();
         } catch (e) {
-            throw new ApiException('操作成功', ApiErrorCode.ROLE_LIST_FAILED, 200);
+            throw new ApiException('操作失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
         }
     }
 
@@ -192,7 +191,7 @@ export class ApiResourceService {
                         .update(ApiResource)
                         .set({isDelete: 1, deleteTime: formatDate()})
                         .where({module: params.module})
-                        .orWhereInIds(params.ids)
+                        .andWhereInIds(params.ids)
                         .execute();
                 case 1:
                     return await this.apiResourceRepository
@@ -200,7 +199,7 @@ export class ApiResourceService {
                         .update(ApiResource)
                         .set({isDelete: 1, deleteTime: formatDate()})
                         .where({system: params.system})
-                        .orWhereInIds(params.ids)
+                        .andWhereInIds(params.ids)
                         .execute();
                     break;
                 default :
@@ -328,13 +327,6 @@ export class ApiResourceService {
                 size: 20,
                 index: 2,
             },
-            /*{
-                name: '所属系统',
-                type: 'Enum',
-                key: 'sex',
-                default: { 1: '女', 2: '男' },
-                size: 20,
-            },*/
             {
                 name: '所属系统',
                 type: 'String',
@@ -383,7 +375,7 @@ export class ApiResourceService {
                 .orderBy('a.name', 'ASC')
                 .getManyAndCount();
             const treeData = listToTree(res[0], 'id', 'parentId', 'children');
-            return  { data: treeData, count: res[1]};
+            return  { data: treeData, count: res[1], listData: res[0]};
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
         }

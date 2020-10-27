@@ -1,4 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import {Injectable, HttpException, Inject} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {Column, Repository} from 'typeorm';
 import { Role } from '../../model/entity/role.entity';
@@ -13,6 +13,7 @@ import {formatDate} from '../../utils/data-time';
 import {ApiResource} from '../../model/entity/apiResource.entity';
 import {RoleApiResourceEntity} from '../../model/entity/roleApiResource.entity';
 import {AddResourceRole} from '../../model/DTO/apiResource/add_resource_role';
+import {UserService} from './user.service';
 
 @Injectable()
 export class RoleService {
@@ -199,21 +200,20 @@ export class RoleService {
           try {
               const role = await this.roleRepository.findOne(params.roleId, {relations: ['authority']});
               if (role === undefined) {
-                  console.log(role)
+                  console.log(role);
                   throw new ApiException('请先添加角色', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
               }
               const list: RoleApiResourceEntity[] = params.resourceIds.map((item: number) => {
                   return {
                       roleId: Number(params.roleId),
-                      apiResourceId: item,
+                      apiResourceId: Number(item),
                   };
-              })
-              console.log(list);
+              });
               await this.roleApiResourceEntityRepository
                   .createQueryBuilder('r')
                   .delete()
                   .from(RoleApiResourceEntity)
-                  .whereInIds({roleId: params.roleId})
+                  .where({roleId: params.roleId})
                   .execute();
               return this.roleApiResourceEntityRepository
                   .createQueryBuilder('r')
@@ -222,7 +222,7 @@ export class RoleService {
                   .values(list)
                   .execute();
           } catch (e) {
-              console.log(e)
+              console.log(e);
               throw new ApiException(e.errorMessage || '操作失败', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
           }
       } catch (e) {

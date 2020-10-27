@@ -14,6 +14,7 @@ import {CreateUserRegisterDto} from '../../model/DTO/user/creat_user_register.dt
 import {RedisCacheService} from './redisCache.service';
 import * as nodemailer from 'nodemailer';
 import {UniqueUser} from '../../model/DTO/user/unique_user';
+import {Organization} from '../../model/entity/organization.entity';
 
 @Injectable()
 export class UserService {
@@ -122,7 +123,7 @@ export class UserService {
         return false;
       }
     } catch (e) {
-      return await e;
+        throw new ApiException('登录失败', ApiErrorCode.USER_LIST_FILED, 200);
     }
   }
 
@@ -174,7 +175,23 @@ export class UserService {
    */
   public async findOneByName(name: string): Promise<User> {
       try {
-          return await this.userRepository.findOne({ name });
+
+          const queryConditionList = ['u.isDelete = :isDelete', 'u.name = :name'];
+          const leftJoinConditionList = [];
+          const leftJoinConditionOrganizations = {};
+          const queryCondition = queryConditionList.join(' AND ');
+          const leftJoinCondition = leftJoinConditionList.join('');
+          const res = await this.userRepository
+              .createQueryBuilder('u')
+              .leftJoinAndSelect('u.role', 'r')
+              .leftJoinAndSelect('u.organizations', 'org', leftJoinCondition, leftJoinConditionOrganizations )
+              .where(queryCondition, {
+                      name,
+                  isDelete: 0,
+                  },
+              )
+              .getOne();
+          return res;
       } catch (e) {
           throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
       }
@@ -443,9 +460,7 @@ export class UserService {
      * 刷脸登录
      * @param params
      */
-  public  async faceLogin(params: LoginParamsDto) {
-
-  }
+  public  async faceLogin(params: LoginParamsDto) {}
 
   /**
    * 产生一个code
@@ -473,5 +488,30 @@ export class UserService {
       } catch (e) {
           throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
       }
+  }
+
+  /**
+   * 构建出用户需要的用户信息
+   * @param user
+   */
+  public getTokenUserInfo(user: User) {
+        const { id, name, desc, address, nick, verification, age, phone, crateTime, role, organizations} = user;
+        return  {
+            id, name, desc, address, nick, verification, age, phone, crateTime,
+            role: (() => {
+                return role ? { id: role.id, name: role.name, desc: role.desc} : null;
+            })(),
+            organizations: (() => {
+                return organizations ? organizations.map((item: Organization) => {
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        desc: item.desc,
+                        parentId: item.parentId,
+                        parentName: item.parentName,
+                    };
+                }) : [];
+            })(),
+        };
   }
 }

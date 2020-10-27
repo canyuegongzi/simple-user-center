@@ -120,9 +120,9 @@ export class OrganizationController {
   public async deleteOrganization(@Body() params: DeleteOrganizationDto) {
     try {
       await this.organizationService.deleteOrganization(params);
-      return  { code: 200, message: '操作成功', success: true };
+      return  { code: 200, data: true, message: '操作成功', success: true };
     } catch (e) {
-      return {code: 200, success: false, message: e.errorMessage};
+      return {code: 200, data: false, success: false, message: e.errorMessage};
     }
   }
 

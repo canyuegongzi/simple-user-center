@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import {Body, Controller, Get, Headers, Inject, Post, Query, Req, UseGuards, UseInterceptors} from '@nestjs/common';
 import { TransformInterceptor } from '../common/shared/interceptors/transform.interceptor';
 import { LoggingInterceptor } from '../common/shared/interceptors/logging.interceptor';
 import { RoleService } from '../service/service/role.service';
@@ -6,13 +6,14 @@ import { CreateRoleDto } from '../model/DTO/role/create_role.dto';
 import { UpdateRoleDto } from '../model/DTO/role/update_role.dto';
 import {QueryRoleDto} from '../model/DTO/role/query_role.dto';
 import {AddAuthDto} from '../model/DTO/role/add_auth';
-import {AddResourceRole} from "../model/DTO/apiResource/add_resource_role";
-import {MessageType, ResultData} from "../common/result/ResultData";
+import {AddResourceRole} from '../model/DTO/apiResource/add_resource_role';
+import {MessageType, ResultData} from '../common/result/ResultData';
+import {UserService} from '../service/service/user.service';
 
 @Controller('role')
-@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class RoleController {
   constructor(
+    @Inject(UserService) private readonly userService: UserService,
     @Inject(RoleService) private readonly roleService: RoleService,
   ) {}
 
@@ -54,10 +55,10 @@ export class RoleController {
   @Post('delete')
   public async deleteRole(@Body('id') id: Array<number| string>) {
     try {
-      const res = await this.roleService.deleteRole(id);
-      return {code: 200,  message: '删除成功', success: true};
+      await this.roleService.deleteRole(id);
+      return new ResultData(MessageType.DELETE,  true, true);
     } catch (e) {
-      return {code: 400, message: '删除失败', success: false};
+      return new ResultData(MessageType.DELETE,  false, false);
     }
   }
 
@@ -75,7 +76,7 @@ export class RoleController {
   public async getList(@Query() params: QueryRoleDto) {
       try {
         const res = await this.roleService.getList(params);
-        return {code: 200, data: res, message: '查询成功'};
+        return new ResultData(MessageType.GETLIST,  res, true);
       } catch (e) {
         return {code: 200, data: [], message: '查询失败'};
       }
@@ -85,7 +86,7 @@ export class RoleController {
   public async getAllList() {
     try {
       const res = await this.roleService.getAllList();
-      return {code: 200, data: res, message: '查询成功'};
+      return new ResultData(MessageType.GETLIST,  res, true);
     } catch (e) {
       return {code: 200, data: [], message: '查询失败'};
     }
@@ -112,6 +113,7 @@ export class RoleController {
   @Post('addApiAuthToRole')
   public async addApiResourceToRole(@Body() params: AddResourceRole) {
     try {
+      console.log(params);
       const res = await this.roleService.addApiResourceToRole(params);
       return {code:  200 , message:  '操作成功', success: true};
     } catch (e) {
@@ -124,7 +126,7 @@ export class RoleController {
    * @param id
    */
   @Get('authByRole')
-  public async getAuthByRole(@Query('id') id: any) {
+  public async getAuthByRole(@Query('id') id: any,  @Headers('token') token: string) {
     try {
       const res = await this.roleService.getAuthByRole(id);
       return {code:  200 , data: res, message:  '操作成功'};
@@ -134,7 +136,7 @@ export class RoleController {
   }
 
   /**
-   * 查询角色权限
+   * 查询角色接口资源权限
    * @param id
    */
   @Get('authApiByRole')
