@@ -12,7 +12,7 @@ export const mysqlConfig = {
 };
 export const redisConfig = {
     name: 'user_token',
-    url: '127.0.0.1:6379',
+    url: '127.0.0.1:6379'
 };
 // etc
 export const redisCacheConfig = {
@@ -23,7 +23,7 @@ export const redisCacheConfig = {
 };
 export const emailConfig = {
     authPass: '', // qq邮箱授权码
-    fromUser: '"',
+    fromUser: '',
     user: '',
 };
 

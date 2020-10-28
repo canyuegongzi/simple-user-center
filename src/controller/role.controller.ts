@@ -113,7 +113,6 @@ export class RoleController {
   @Post('addApiAuthToRole')
   public async addApiResourceToRole(@Body() params: AddResourceRole) {
     try {
-      console.log(params);
       const res = await this.roleService.addApiResourceToRole(params);
       return {code:  200 , message:  '操作成功', success: true};
     } catch (e) {
