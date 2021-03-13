@@ -28,6 +28,8 @@ export class SystemService {
             newSystem.crateTime = formatDate();
             newSystem.updateTime = formatDate();
             newSystem.name = system.name;
+            newSystem.code = system.code;
+            newSystem.attrValue = system.attrValue;
             return await this.systemRepository.save(newSystem);
         } catch (e) {
             throw new ApiException('添加失败', ApiErrorCode.USER_LIST_FILED, 200);
@@ -43,7 +45,7 @@ export class SystemService {
             return await this.systemRepository
                 .createQueryBuilder('s')
                 .update(System)
-                .set({desc: system.desc, name: system.name, value: system.value,  updateTime: formatDate()})
+                .set({desc: system.desc, code: system.code, attrValue: system.attrValue, name: system.name, value: system.value,  updateTime: formatDate()})
                 .where('id = :id', { id: system.id })
                 .execute();
         } catch (e) {

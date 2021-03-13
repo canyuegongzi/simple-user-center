@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthStrategy } from './jwt.strategy';
 import { UserModule } from '../../module/user.module';
-import config from '../../config/config';
+import {config} from '../../config/config.json';
 @Module({
   imports: [
     // PassportModule.register({ defaultStrategy: 'jwt' }),

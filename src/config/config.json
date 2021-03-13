@@ -1,0 +1,60 @@
+{
+    "qiniuUploadConfig": {
+        "accessKey": "",
+        "secretKey": "",
+        "bucket": "bucket",
+        "scope": "",
+        "expires": "3600",
+        "origin": "",
+        "persistentNotifyUrl": ""
+    },
+    "config": {
+        "connectMicroservice": 3002,
+        "port": 8881,
+        "tokenSetTimeOut": 7200,
+        "globalPrefix": "simple-user-center/v1.0"
+    },
+    "mysqlConfig": {
+        "host": "",
+        "userName": "root",
+        "password": "",
+        "dataBaseName": "b_simple_user_center",
+        "port": 7000
+    },
+    "mongodbConfig": {
+        "host": "127.0.0.1",
+        "userName": "root",
+        "port": 27017,
+        "dataBaseName": "notice",
+        "password": "",
+        "authSource": "admin"
+    },
+    "redisConfig": {
+        "name": "user_token",
+        "url": "127.0.0.1:6379",
+        "host": "127.0.0.1",
+        "port": 6379
+    },
+    "kafkaConfig": {
+        "url": "127.0.0.1:19092",
+        "clientId": "test-app-client",
+        "groupId": "test-app-group"
+    },
+    "rabbitMQConfig": {
+        "url": "",
+        "name": "",
+        "queue": "",
+        "websocketFriendMessageQueue": "",
+        "websocketFriendMessageExchange": "",
+        "websocketGroupMessageExchange": "",
+        "websocketRequestExchange": "",
+        "websocketGroupMessageSubscribe": "",
+        "websocketFriendMessageSubscribe": "",
+        "websocketGroupMessageQueue": ""
+    },
+    "emailConfig":{
+        "authPass": "",
+        "fromUser": "",
+        "user": ""
+    }
+}

@@ -14,6 +14,12 @@ export class System {
     @Column()
     value: string;
 
+    @Column()
+    code: string;
+
+    @Column()
+    attrValue: string;
+
     @Column({default: 0})
     isDelete: number;
 

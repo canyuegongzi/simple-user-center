@@ -9,7 +9,6 @@ import { RoleModule } from './module/role.module';
 import { OrganizationModule } from './module/organization.module';
 import { AuthorityModule } from './module/authority.module';
 import {SystemModule} from './module/system.module';
-import {mysqlConfig, redisCacheConfig, redisConfig} from './config/config';
 import {Authority} from './model/entity/authority.entity';
 import {User} from './model/entity/user.entity';
 import {Role} from './model/entity/role.entity';
@@ -19,32 +18,38 @@ import {KafkaTaskModule} from './module/kafkaTask.module';
 import {ApiResourceModule} from './module/apiResource.module';
 import {ApiResource} from './model/entity/apiResource.entity';
 import {RoleApiResourceEntity} from './model/entity/roleApiResource.entity';
+import {CommonConfigService} from './service/service/CommonConfigService';
+import {CommonConfigKey} from './config/CommonConfigInterface';
+const commonConfigService = new CommonConfigService();
+console.log(commonConfigService.envConfig);
 
 @Module({
   imports: [
-    RedisModule.register(redisConfig),
+    RedisModule.register({
+        name: commonConfigService.get(CommonConfigKey.REDIS_NAME),
+        url: commonConfigService.get(CommonConfigKey.REDIS_HOST) + ':' + commonConfigService.get(CommonConfigKey.REDIS_POST),
+    }),
     TypeOrmModule.forRoot(
         {
           type: 'mysql',
-          host: mysqlConfig.host,
-          port: mysqlConfig.port,
-          username: mysqlConfig.userName,
-          password: mysqlConfig.password,
-          database: 'b_simple_user_center',
+          host: commonConfigService.get(CommonConfigKey.MYSQL),
+          port: commonConfigService.get(CommonConfigKey.MYSQL_PORT),
+          username: commonConfigService.get(CommonConfigKey.MYSQL_USER),
+          password: commonConfigService.get(CommonConfigKey.MYSQL_PASSWORD),
+          database: commonConfigService.get(CommonConfigKey.MYSQL_DATABASE_NAME) ,
           entities: [Authority, User, Role, Organization, System, ApiResource, RoleApiResourceEntity],
           synchronize: true,
         },
     ),
       CacheModule.register({
           store: redisStore,
-          host: redisCacheConfig.host,
-          port: redisCacheConfig.port,
-          ttl: redisCacheConfig.ttl, // seconds
-          max: redisCacheConfig.max, // seconds
+          host: commonConfigService.get(CommonConfigKey.REDIS_HOST),
+          port: commonConfigService.get(CommonConfigKey.REDIS_POST),
+          ttl: 30,
+          max: 150,
       }),
       UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule, KafkaTaskModule, ApiResourceModule,
   ],
-    /*&KafkaTaskModule*/
   controllers: [ AppController ],
   providers: [ AppService ],
 })

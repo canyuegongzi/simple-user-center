@@ -1,6 +1,6 @@
 import {Injectable, Inject, Body, Query} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {InsertResult, Repository, UpdateResult} from 'typeorm';
+import {DeleteResult, InsertResult, Repository, UpdateResult} from 'typeorm';
 import {System} from '../../model/entity/system.entity';
 import {ApiResource} from '../../model/entity/apiResource.entity';
 import {RoleApiResourceEntity} from '../../model/entity/roleApiResource.entity';
@@ -173,32 +173,32 @@ export class ApiResourceService {
      * 删除资源'1: 系统， 2： 模块， 3： 接口'
      * @param params
      */
-    public async deleteResource(params: DeleteApiResourceDto): Promise<UpdateResult> {
+    public async deleteResource(params: DeleteApiResourceDto): Promise<DeleteResult> {
         try {
             const type: number = Number(params.type);
             switch (type) {
                 case 3:
                     return await this.apiResourceRepository
                         .createQueryBuilder('r')
-                        .update(ApiResource)
-                        .set({isDelete: 1, deleteTime: formatDate()})
+                        .delete()
+                        .from(ApiResource)
                         .whereInIds(params.ids)
                         .execute();
                     break;
                 case 2:
                     return await this.apiResourceRepository
                         .createQueryBuilder('r')
-                        .update(ApiResource)
-                        .set({isDelete: 1, deleteTime: formatDate()})
+                        .delete()
+                        .from(ApiResource)
                         .where({module: params.module})
                         .andWhereInIds(params.ids)
                         .execute();
                 case 1:
                     return await this.apiResourceRepository
                         .createQueryBuilder('r')
-                        .update(ApiResource)
-                        .set({isDelete: 1, deleteTime: formatDate()})
-                        .where({system: params.system})
+                        .delete()
+                        .from(ApiResource)
+                        .where({module: params.module})
                         .andWhereInIds(params.ids)
                         .execute();
                     break;

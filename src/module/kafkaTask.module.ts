@@ -2,14 +2,16 @@ import { Module} from '@nestjs/common';
 import {KafkaTaskController} from '../controller/kafkaTask.controller';
 import {KafkaModule} from '../common/kafka/kafka.module';
 import {TaskKafkaProductService} from '../service/service/taskKafkaProduct.service';
-import {kafkaConfig} from '../config/config';
+import {CommonConfigService} from '../service/service/CommonConfigService';
+import {CommonConfigKey} from '../config/CommonConfigInterface';
+const commonConfigService = new CommonConfigService();
 
 @Module({
     imports: [
         KafkaModule.register({
-            clientId: kafkaConfig.clientId,
-            brokers: [kafkaConfig.url],
-            groupId: kafkaConfig.groupId,
+            clientId: 'test-app-client',
+            brokers: [commonConfigService.get(CommonConfigKey.KAfKA)],
+            groupId: 'test-app-group',
         }),
     ],
     controllers: [KafkaTaskController],

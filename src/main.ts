@@ -7,7 +7,7 @@ import * as session from 'express-session';
 import { HttpExceptionFilter } from './common/error/filters/http-exception.filter';
 import { ApiParamsValidationPipe } from './common/error/pipe/api-params-validation.pipe';
 import * as compression from 'compression';
-import config from './config/config';
+import {config} from './config/config.json';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -32,3 +32,12 @@ async function bootstrap() {
   await app.listen(config.port);
 }
 bootstrap();
+// docker build  -t simple-user-center-server:1.0 .
+// docker tag 22b3e74fb903 canyuegongzi/simple-user-center-server:1.0
+// docker push canyuegongzi/simple-user-center-server:1.0
+// docker run -itd --name simplenoticeapi -p 10001:10001 -p 10002:10002 --restart=on-failure:3 72300a873c2c
+// docker run -itd --restart=on-failure:3 --name zeebe -p 26400-26404:26500-26504 camunda/zeebe:latest
+// docker build  -t gateway:1.0 .
+// docker run -itd --name simple-user-center-server -p 8881:8881 -e MYSQL="148.70.150.131" -e MYSQL_PASSWORD="123Ad123Ad" -e MYSQL_USER="root" --restart=on-failure:3 22b3e74fb903
+
+

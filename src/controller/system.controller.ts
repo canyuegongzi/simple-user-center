@@ -5,7 +5,7 @@ import {SystemService} from '../service/service/system.service';
 import {UpdateSystemDto} from '../model/DTO/system/update_system.dto';
 import {QuerySystemDto} from '../model/DTO/system/system_role.dto';
 import {CreateSystemDto} from '../model/DTO/system/create_system.dto';
-import {MessageType, ResultData} from "../common/result/ResultData";
+import {MessageType, ResultData} from '../common/result/ResultData';
 
 @Controller('system')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)

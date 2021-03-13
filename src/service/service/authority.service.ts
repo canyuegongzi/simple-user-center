@@ -153,15 +153,19 @@ export class AuthorityService {
       if (params.system) {
         queryConditionList.push('a.system = :system');
       }
+      let id = null;
       const queryCondition = queryConditionList.join(' AND ');
-      const user: User = await this.userRepository.findOne({ name: params.user }, {relations: ['role']});
-      if (!user) {
-        throw new ApiException('用户不存在', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
+      if (!params.roleId) {
+          const user: User = await this.userRepository.findOne({ name: params.user }, {relations: ['role']});
+          if (!user) {
+              throw new ApiException('用户不存在', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
+          }
+          if (!user.role) {
+              throw new ApiException('角色错误', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
+          }
+          id = user.role.id;
       }
-      if (!user.role) {
-        throw new ApiException('角色错误', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
-      }
-      const id = user.role.id;
+      id = params.roleId;
       const res: [Role[], number] = await this.roleRepository
           .createQueryBuilder('r')
           .leftJoinAndSelect('r.authority', 'a')

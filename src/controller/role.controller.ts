@@ -107,7 +107,7 @@ export class RoleController {
   }
 
   /**
-   * 角色授权(菜单)
+   * 角色授权(接口)
    * @param params
    */
   @Post('addApiAuthToRole')
