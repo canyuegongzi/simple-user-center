@@ -1,12 +1,12 @@
 {
     "qiniuUploadConfig": {
-        "accessKey": "",
-        "secretKey": "",
+        "accessKey": "FvMDqzTOAATbu873LzVjBx0pxpUFkRFSCNbVDMlM",
+        "secretKey": "5LGhaaH6UyGyZfjoiHJ_c_YkNKDREFxugFnx6lbh",
         "bucket": "bucket",
-        "scope": "",
+        "scope": "canyuegongzi",
         "expires": "3600",
         "origin": "",
-        "persistentNotifyUrl": ""
+        "persistentNotifyUrl": "http://qiniu.canyuegongzi.xyz/"
     },
     "config": {
         "connectMicroservice": 3002,
@@ -15,46 +15,46 @@
         "globalPrefix": "simple-user-center/v1.0"
     },
     "mysqlConfig": {
-        "host": "",
+        "host": "148.70.150.131",
         "userName": "root",
-        "password": "",
+        "password": "123Ad123Ad",
         "dataBaseName": "b_simple_user_center",
         "port": 7000
     },
     "mongodbConfig": {
-        "host": "127.0.0.1",
+        "host": "148.70.150.131",
         "userName": "root",
         "port": 27017,
         "dataBaseName": "notice",
-        "password": "",
+        "password": "123ADD123ADD",
         "authSource": "admin"
     },
     "redisConfig": {
         "name": "user_token",
-        "url": "127.0.0.1:6379",
-        "host": "127.0.0.1",
+        "url": "148.70.150.131:6379",
+        "host": "148.70.150.131",
         "port": 6379
     },
     "kafkaConfig": {
-        "url": "127.0.0.1:19092",
+        "url": "148.70.150.131:19092",
         "clientId": "test-app-client",
         "groupId": "test-app-group"
     },
     "rabbitMQConfig": {
-        "url": "",
-        "name": "",
-        "queue": "",
-        "websocketFriendMessageQueue": "",
-        "websocketFriendMessageExchange": "",
-        "websocketGroupMessageExchange": "",
-        "websocketRequestExchange": "",
-        "websocketGroupMessageSubscribe": "",
-        "websocketFriendMessageSubscribe": "",
-        "websocketGroupMessageQueue": ""
+        "url": "amqp://root:123ADD123ADD@148.70.150.131:5179",
+        "name": "MESSAGE_SERVICE",
+        "queue": "message_queue",
+        "websocketFriendMessageQueue": "websocket-friend-message-queue",
+        "websocketFriendMessageExchange": "friend-message",
+        "websocketGroupMessageExchange": "group-message",
+        "websocketRequestExchange": "request",
+        "websocketGroupMessageSubscribe": "subscribe-gm",
+        "websocketFriendMessageSubscribe": "subscribe-fm",
+        "websocketGroupMessageQueue": "websocket-group-message-queue"
     },
     "emailConfig":{
-        "authPass": "",
-        "fromUser": "",
-        "user": ""
+        "authPass": "tsdrnaaktxsebfbd",
+        "fromUser": "<1970305447@qq.com>",
+        "user": "1970305447@qq.com"
     }
 }

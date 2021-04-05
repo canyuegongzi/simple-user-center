@@ -5,9 +5,9 @@ const config = {
     globalPrefix: 'simple-user-center/v1.0',
 };
 export const emailConfig = {
-    authPass: '', // qq邮箱授权码
-    fromUser: '',
-    user: '',
+    authPass: 'tsdrnaaktxsebfbd', // qq邮箱授权码
+    fromUser: '"Marvin" <1970305447@qq.com>',
+    user: '1970305447@qq.com',
 };
 
 export default config;
