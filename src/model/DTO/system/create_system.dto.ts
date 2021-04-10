@@ -1,5 +1,5 @@
 import {IsNotEmpty, IsString} from 'class-validator';
-import {ApiErrorCode} from '../../../config/api-error-code.enum';
+import {ApiErrorCode} from '../../../config/ApiErrorCodeEnum';
 
 export class CreateSystemDto {
     @IsString({ message: '角色名称格式不正确', context: { errorCode: ApiErrorCode.USER_NAME_STRING } })

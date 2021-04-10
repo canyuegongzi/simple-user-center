@@ -1,0 +1,35 @@
+serverConfig:
+  connectMicroservice: 3001
+  port: 8881
+  tokenSetTimeOut: 7200
+  globalPrefix: 'simple-user-center/v1.0'
+mysqlConfig:
+  host: ''
+  userName: ''
+  password: ''
+  dataBaseName: 'prd_simple_user_center'
+  port: 3306
+mongodbConfig:
+  host: ''
+  userName: ''
+  port:
+  dataBaseName: ''
+  password: ''
+  authSource: ''
+redisConfig:
+  name: 'user_token'
+  url: ''
+  host: ''
+  port:
+kafkaConfig:
+  url: ''
+  clientId: 'test-app-client'
+  groupId: 'test-app-group'
+rabbitMQConfig:
+  url: ''
+  name: ''
+  queue: ''
+emailConfig:
+  authPass: ''
+  fromUser: ''
+  user: ''

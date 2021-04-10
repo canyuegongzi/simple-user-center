@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as Excel from 'exceljs';
 import { basename, normalize, join } from 'path';
 import { writeFileSync, existsSync, readFileSync } from 'fs';
-import { randomString } from './common.util';
+import { randomString } from './commonUtil';
 
 process.on(
     'message',

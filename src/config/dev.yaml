@@ -1,0 +1,35 @@
+serverConfig:
+  connectMicroservice: 3001
+  port: 8881
+  tokenSetTimeOut: 7200
+  globalPrefix: 'simple-user-center/v1.0'
+mysqlConfig:
+  host: '127.0.0.1'
+  userName: 'root'
+  password: '123456'
+  dataBaseName: 'b_simple_user_center'
+  port: 3306
+mongodbConfig:
+  host: '127.0.0.1'
+  userName: 'root'
+  port: 7000
+  dataBaseName: ''
+  password: '123456'
+  authSource: 'admin'
+redisConfig:
+  name: 'user_token'
+  url: '127.0.0.1:6379'
+  host: '127.0.0.1'
+  port: 6379
+kafkaConfig:
+  url: '148.70.150.131:19092'
+  clientId: 'test-app-client'
+  groupId: 'test-app-group'
+rabbitMQConfig:
+    url: ''
+    name: 'MESSAGE_SERVICE'
+    queue: 'message_queue'
+emailConfig:
+   authPass: ''
+   fromUser: '"Marvin" <1970305447@qq.com>'
+   user: '1970305447@qq.com'

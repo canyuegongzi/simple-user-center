@@ -1,5 +1,5 @@
 import {IsNotEmpty} from 'class-validator';
-import {ApiErrorCode} from '../../../config/api-error-code.enum';
+import {ApiErrorCode} from '../../../config/ApiErrorCodeEnum';
 
 export class KafkaTaskDto {
     @IsNotEmpty({ message: 'operateUser不能为空', context: { errorCode: ApiErrorCode.USER_NAME_STRING } })

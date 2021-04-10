@@ -19,13 +19,13 @@ const messageMap = {
 }
 export class ResultData {
     public code: number;
-    public message: string;
-    public data: ReturnData;
+    public message: string | MessageType;
+    public data: any;
     public success: boolean;
-    constructor(messageType: MessageType, data = null, success = true) {
-        console.log(messageType)
+
+    constructor(messageType: any, data = null, success = true) {
         this.code = 200;
-        this.message = messageMap[messageType];
+        this.message = messageMap[messageType] || messageType;
         this.data = data;
         this.success = success;
     }
