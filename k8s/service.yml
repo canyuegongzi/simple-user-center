@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: simple-user-center-server
+  name: simple-user-center-server-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: simple-user-center-server-port
+      port: 8881
+      protocol: TCP
+      targetPort: 8881
+  selector:
+    app: simple-user-center-server

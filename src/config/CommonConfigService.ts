@@ -1,12 +1,14 @@
 import {CommonConfigInterface} from './CommonConfigInterface';
-import { parse, stringify } from 'yaml';
+// import { parse, stringify } from 'yaml';
+// tslint:disable-next-line:no-var-requires
+const YAML = require('yamljs');
 import * as fs from 'fs';
 import {join} from 'path';
 const isDevelopment: boolean = process.env.NODE_ENV === 'development';
-const envConfigFile = isDevelopment ?
-    fs.readFileSync(join(__dirname, '.', 'dev.yaml'), 'utf-8')
-    : fs.readFileSync(join(__dirname, '.', 'pro.yaml'), 'utf-8');
-const envConfig = parse(envConfigFile);
+const devConfig = fs.readFileSync(join(__dirname, '.', 'dev.yaml'), 'utf-8');
+const proConfig = fs.readFileSync(join(__dirname, '.', 'pro.yaml'), 'utf-8');
+const envConfigFile = isDevelopment ? devConfig : proConfig;
+const envConfig = YAML.parse(envConfigFile);
 const { mysqlConfig, mongodbConfig, kafkaConfig, rabbitMQConfig, redisConfig, emailConfig, serverConfig } = envConfig;
 
 export class CommonConfigService {
@@ -44,6 +46,7 @@ export class CommonConfigService {
             REDIS: autoConfig.REDIS || redisConfig.url,
             REDIS_NAME: autoConfig.REDIS_NAME || redisConfig.name,
             REDIS_POST: autoConfig.REDIS_POST || redisConfig.port,
+            REDIS_PASSWORD: autoConfig.REDIS_PASSWORD || redisConfig.password,
             REDIS_HOST: autoConfig.REDIS_HOST || redisConfig.host,
             KAfKA: autoConfig.KAfKA || kafkaConfig.url,
         } as CommonConfigInterface;

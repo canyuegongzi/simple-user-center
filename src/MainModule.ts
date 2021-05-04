@@ -27,7 +27,9 @@ console.log(commonConfigService.envConfig);
   imports: [
     RedisModule.register({
         name: commonConfigService.get(CommonConfigKey.REDIS_NAME),
-        url: commonConfigService.get(CommonConfigKey.REDIS_HOST) + ':' + commonConfigService.get(CommonConfigKey.REDIS_POST),
+        host: commonConfigService.get(CommonConfigKey.REDIS_HOST),
+        port: commonConfigService.get(CommonConfigKey.REDIS_POST),
+        password: commonConfigService.get(CommonConfigKey.REDIS_PASSWORD),
     }),
     TypeOrmModule.forRoot(
         {
@@ -41,13 +43,14 @@ console.log(commonConfigService.envConfig);
           synchronize: true,
         },
     ),
-      CacheModule.register({
+    /*  CacheModule.register({
           store: redisStore,
           host: commonConfigService.get(CommonConfigKey.REDIS_HOST),
           port: commonConfigService.get(CommonConfigKey.REDIS_POST),
+          password: commonConfigService.get(CommonConfigKey.REDIS_PASSWORD),
           ttl: 30,
           max: 150,
-      }),
+      }),*/
       UserModule, RoleModule, OrganizationModule, AuthorityModule, SystemModule, KafkaTaskModule, ApiResourceModule,
   ],
   controllers: [ AppController ],

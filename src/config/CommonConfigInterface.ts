@@ -28,6 +28,7 @@ export interface CommonConfigInterface {
     REDIS_NAME: string;
     // redis ip 地址
     REDIS_HOST: string;
+    REDIS_PASSWORD: string;
     // redis 端口
     REDIS_POST: string;
     // kafka 地址
@@ -53,6 +54,7 @@ export const CommonConfigKey: CommonConfigInterface = {
     REDIS_NAME: 'REDIS_NAME',
     REDIS_HOST: 'REDIS_HOST',
     REDIS_POST: 'REDIS_POST',
+    REDIS_PASSWORD: 'REDIS_PASSWORD',
     KAfKA: 'KAfKA',
     RABBITMQ: 'RABBITMQ',
 };

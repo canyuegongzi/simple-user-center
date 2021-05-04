@@ -22,14 +22,14 @@ redisConfig:
   host: '127.0.0.1'
   port: 6379
 kafkaConfig:
-  url: '148.70.150.131:19092'
+  url: '127.0.0.1:19090'
   clientId: 'test-app-client'
   groupId: 'test-app-group'
 rabbitMQConfig:
-    url: ''
+    url: 'amqp://root:123Ad123Ad@127.0.0.1:5179'
     name: 'MESSAGE_SERVICE'
     queue: 'message_queue'
 emailConfig:
-   authPass: ''
+   authPass: 'tsdrnaaktxsebfbd'
    fromUser: '"Marvin" <1970305447@qq.com>'
    user: '1970305447@qq.com'
