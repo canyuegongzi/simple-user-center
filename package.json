@@ -65,7 +65,7 @@
     "rxjs": "^6.3.3",
     "socket.io-redis": "^5.2.0",
     "typeorm": "^0.2.16",
-    "ws": "^7.3.0",
+    "ws": "^7.4.6",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
