@@ -1,0 +1,67 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: blog.canyuegongzi.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+               serviceName: simple-blog-center-clinet-service
+               servicePort: 3002
+    - http:
+        paths:
+          - path: /simple-user-center
+            pathType: Prefix
+            backend:
+              serviceName: simple-user-center-server-service
+              servicePort: 8881
+    - http:
+        paths:
+          - path: /simple-file-center
+            pathType: Prefix
+            backend:
+              serviceName: simple-file-center-server-service
+              servicePort: 8883
+    - http:
+        paths:
+          - path: /simple-blog-center
+            pathType: Prefix
+            backend:
+              serviceName: simple-file-center-server-service
+              servicePort: 10000
+    - http:
+        paths:
+          - path: /simple-push-center
+            pathType: Prefix
+            backend:
+              serviceName: simple-push-center-server-service
+              servicePort: 10001
+    - http:
+        paths:
+          - path: /user-login-cas-web
+            pathType: Prefix
+            backend:
+              serviceName: portal-web-service
+              servicePort: 8040
+          - path: /simple-file-center-web
+            pathType: Prefix
+            backend:
+              serviceName: portal-web-service
+              servicePort: 8040
+          - path: /simple-user-center-web
+            pathType: Prefix
+            backend:
+              serviceName: portal-web-service
+              servicePort: 8040
+          - path: /simple-blog-manager-system-web
+            pathType: Prefix
+            backend:
+              serviceName: portal-web-service
+              servicePort: 8040

@@ -17,9 +17,9 @@ spec:
       containers:
         - env:
             - name: MYSQL
-              value: "127.0.0.1"
+              value: "148.70.150.131"
             - name: MYSQL_PASSWORD
-              value: "123456"
+              value: "123Ad123Ad"
             - name: MYSQL_PORT
               value: '7000'
             - name: MYSQL_USER
@@ -27,13 +27,13 @@ spec:
             - name: MYSQL_DATABASE_NAME
               value: b_simple_user_center
             - name: REDIS
-              value: '127.0.0.1:6379'
+              value: '148.70.150.131:6380'
             - name: REDIS_NAME
               value: 'user_token'
             - name: REDIS_POST
               value: '6380'
             - name: KAfKA
-              value: '127.0.0.1:19090'
+              value: '148.70.150.131:19092'
           image: canyuegongzi/simple-user-center-server:2.0
           imagePullPolicy: IfNotPresent
           name: simple-user-center-server

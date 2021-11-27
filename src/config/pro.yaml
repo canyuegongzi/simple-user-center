@@ -4,32 +4,33 @@ serverConfig:
   tokenSetTimeOut: 7200
   globalPrefix: 'simple-user-center/v1.0'
 mysqlConfig:
-  host: '127.0.0.1'
-  userName: 'root'
-  password: '123456'
+  host: ''
+  userName: ''
+  password: ''
   dataBaseName: 'b_simple_user_center'
-  port: 3306
-mongodbConfig:
-  host: '127.0.0.1'
-  userName: 'root'
   port: 7000
+mongodbConfig:
+  host: ''
+  userName: ''
+  port:
   dataBaseName: ''
-  password: '123456'
-  authSource: 'admin'
+  password: ''
+  authSource: ''
 redisConfig:
   name: 'user_token'
-  url: '127.0.0.1:6379'
-  host: '127.0.0.1'
-  port: 6379
+  url: ''
+  host: ''
+  port:
+  password:
 kafkaConfig:
-  url: '127.0.0.1:19090'
-  clientId: 'test-app-client'
-  groupId: 'test-app-group'
+  url: ''
+  clientId: ''
+  groupId: ''
 rabbitMQConfig:
-  url: 'amqp://root:123Ad123Ad@127.0.0.1:5179'
-  name: 'MESSAGE_SERVICE'
-  queue: 'message_queue'
+  url: ''
+  name: ''
+  queue: ''
 emailConfig:
-  authPass: 'tsdrnaaktxsebfbd'
+  authPass: ''
   fromUser: '"Marvin" <1970305447@qq.com>'
-  user: '1970305447@qq.com'
+  user: ''

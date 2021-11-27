@@ -1,6 +1,7 @@
 import {CacheModule, Module} from '@nestjs/common';
 import { RedisModule} from 'nestjs-redis';
-import * as redisStore from 'cache-manager-redis-store';
+import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 import { AppController } from './AppController';
 import { AppService } from './AppService';
 import { UserModule } from './module/UserModule';
@@ -20,11 +21,27 @@ import {ApiResource} from './model/entity/ApiResourceEntity';
 import {RoleApiResourceEntity} from './model/entity/RoleApiResourceEntity';
 import {CommonConfigService} from './config/CommonConfigService';
 import {CommonConfigKey} from './config/CommonConfigInterface';
+import {ServeStaticModule} from '@nestjs/serve-static';
+import {join} from 'path';
 const commonConfigService = new CommonConfigService();
 console.log(commonConfigService.envConfig);
 
 @Module({
   imports: [
+    WinstonModule.forRoot({
+        transports: [
+            new winston.transports.Console({
+                format: winston.format.combine(
+                    winston.format.timestamp(),
+                    winston.format.ms(),
+                    nestWinstonModuleUtilities.format.nestLike(),
+                ),
+            }),
+        ],
+    }),
+    ServeStaticModule.forRoot({
+        rootPath: join(__dirname, '.', 'static'),
+    }),
     RedisModule.register({
         name: commonConfigService.get(CommonConfigKey.REDIS_NAME),
         host: commonConfigService.get(CommonConfigKey.REDIS_HOST),
