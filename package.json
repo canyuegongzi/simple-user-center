@@ -56,7 +56,7 @@
     "mysql": "^2.18.1",
     "nest-winston": "^1.6.1",
     "nestjs-redis": "^1.2.3",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "npm": "^6.14.3",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
