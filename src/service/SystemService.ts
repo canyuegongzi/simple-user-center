@@ -1,13 +1,13 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {System} from '../model/entity/SystemEntity';
-import {CreateSystemDto} from '../model/DTO/system/create_system.dto';
-import {formatDate} from '../utils/dataTime';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {UpdateSystemDto} from '../model/DTO/system/update_system.dto';
-import {QuerySystemDto} from '../model/DTO/system/system_role.dto';
+import { System } from '../model/entity/SystemEntity';
+import { CreateSystemDto } from '../model/DTO/system/create_system.dto';
+import { formatDate } from '../utils/dataTime';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { UpdateSystemDto } from '../model/DTO/system/update_system.dto';
+import { QuerySystemDto } from '../model/DTO/system/system_role.dto';
 
 @Injectable()
 export class SystemService {
@@ -45,7 +45,7 @@ export class SystemService {
             return await this.systemRepository
                 .createQueryBuilder('s')
                 .update(System)
-                .set({desc: system.desc, code: system.code, attrValue: system.attrValue, name: system.name, value: system.value,  updateTime: formatDate()})
+                .set({ desc: system.desc, code: system.code, attrValue: system.attrValue, name: system.name, value: system.value,  updateTime: formatDate() })
                 .where('id = :id', { id: system.id })
                 .execute();
         } catch (e) {
@@ -62,7 +62,7 @@ export class SystemService {
             return await this.systemRepository
                 .createQueryBuilder()
                 .update(System)
-                .set({isDelete: 1, deleteTime: formatDate()})
+                .set({ isDelete: 1, deleteTime: formatDate() })
                 .whereInIds(ids)
                 .execute();
         } catch (e) {
@@ -78,7 +78,7 @@ export class SystemService {
         try {
             return await this.systemRepository
                 .createQueryBuilder('s')
-                .where('s.id = :id', { id: query})
+                .where('s.id = :id', { id: query })
                 .getOne();
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -92,7 +92,7 @@ export class SystemService {
         try {
             return await this.systemRepository
                 .createQueryBuilder('s')
-                .where('s.value = :value', { value: query})
+                .where('s.value = :value', { value: query })
                 .getOne();
         } catch (e) {
             throw new ApiException('角色已经存在', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -105,7 +105,7 @@ export class SystemService {
      */
     public async getList(query: QuerySystemDto) {
         try {
-            const queryConditionList = ['s.isDelete = :isDelete'];
+            const queryConditionList = [ 's.isDelete = :isDelete' ];
             if (query.name) {
                 queryConditionList.push('s.name LIKE :name');
             }
@@ -121,7 +121,7 @@ export class SystemService {
                 .skip((query.page - 1) * query.pageSize)
                 .take(query.pageSize)
                 .getManyAndCount();
-            return  { data: res[0], count: res[1]};
+            return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
         }
@@ -133,7 +133,7 @@ export class SystemService {
      */
     public async getAllList() {
         try {
-            const queryConditionList = ['s.isDelete = :isDelete'];
+            const queryConditionList = [ 's.isDelete = :isDelete' ];
             const queryCondition = queryConditionList.join(' AND ');
             return  await this.systemRepository
                 .createQueryBuilder('s')

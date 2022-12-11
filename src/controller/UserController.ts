@@ -1,13 +1,13 @@
-import {Body, Controller, Get, Inject, Post, Query, Req, Session, UseInterceptors, HttpCode} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, Req, Session, UseInterceptors, HttpCode } from '@nestjs/common';
 import { CreateUserDto } from '../model/DTO/user/CreatUserDto';
 import { LoginParamsDto } from '../model/DTO/user/LoginParamsDto';
 import { AuthService } from '../common/auth/AuthService';
 import { UserService } from '../service/UserService';
 import { QueryUserDto } from '../model/DTO/user/QueryUserDto';
-import {CreateUserRegisterDto} from '../model/DTO/user/CreatUserRegisterDto';
-import {User} from '../model/entity/UserEntity';
-import {UniqueUser} from '../model/DTO/user/UniqueUser';
-import {MessageType, ResultData} from '../common/result/ResultData';
+import { CreateUserRegisterDto } from '../model/DTO/user/CreatUserRegisterDto';
+import { User } from '../model/entity/UserEntity';
+import { UniqueUser } from '../model/DTO/user/UniqueUser';
+import { MessageType, ResultData } from '../common/result/ResultData';
 
 @Controller('user')
 export class UserController {
@@ -124,7 +124,7 @@ export class UserController {
             const res  = await this.userService.getList(params);
             return new ResultData(MessageType.GETLIST, res, true);
         } catch (e) {
-            return new ResultData(MessageType.GETLIST, { data: [], count: 0}, false);
+            return new ResultData(MessageType.GETLIST, { data: [], count: 0 }, false);
         }
     }
 
@@ -137,7 +137,7 @@ export class UserController {
             const res = await this.userService.getAllList();
             return new ResultData(MessageType.GETLIST, res, true);
         } catch (e) {
-            return new ResultData(MessageType.GETLIST, { data: [], count: 0}, false);
+            return new ResultData(MessageType.GETLIST, { data: [], count: 0 }, false);
         }
     }
 

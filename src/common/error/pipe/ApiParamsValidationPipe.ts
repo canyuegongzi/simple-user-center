@@ -34,7 +34,7 @@ export class ApiParamsValidationPipe implements PipeTransform {
     }
 
     private toValidate(metatype): boolean {
-        const types = [String, Boolean, Number, Array, Object];
+        const types = [ String, Boolean, Number, Array, Object ];
         return !types.find((type) => metatype === type);
     }
 }

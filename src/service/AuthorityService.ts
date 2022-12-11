@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {CreateAuthorityDto} from '../model/DTO/authority/CreateAuthorityDto';
-import {UpdateAuthorityDto} from '../model/DTO/authority/UpdateAuthorityDto';
-import {QueryAuthorityDto} from '../model/DTO/authority/QueryAuthorityDto';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {listConvertTree, listToTree} from '../utils/treeData';
-import {Authority} from '../model/entity/AuthorityEntity';
-import {QueryMenuDto} from '../model/DTO/authority/QueryMenusDto';
-import {User} from '../model/entity/UserEntity';
-import {Role} from '../model/entity/RoleEntity';
-import {formatDate} from '../utils/dataTime';
+import { CreateAuthorityDto } from '../model/DTO/authority/CreateAuthorityDto';
+import { UpdateAuthorityDto } from '../model/DTO/authority/UpdateAuthorityDto';
+import { QueryAuthorityDto } from '../model/DTO/authority/QueryAuthorityDto';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { listConvertTree, listToTree } from '../utils/treeData';
+import { Authority } from '../model/entity/AuthorityEntity';
+import { QueryMenuDto } from '../model/DTO/authority/QueryMenusDto';
+import { User } from '../model/entity/UserEntity';
+import { Role } from '../model/entity/RoleEntity';
+import { formatDate } from '../utils/dataTime';
 
 @Injectable()
 export class AuthorityService {
@@ -31,7 +31,7 @@ export class AuthorityService {
           .createQueryBuilder('a')
           .insert()
           .into(Authority)
-          .values([{
+          .values([ {
             name: params.name,
             code: params.code,
             crateTime: formatDate(),
@@ -40,7 +40,7 @@ export class AuthorityService {
             desc: params.desc,
             icon: params.icon,
             path: params.path,
-            parentId: params.parentId }])
+            parentId: params.parentId } ])
           .execute();
     } catch (e) {
       throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_CREATED_FILED, 200);
@@ -82,7 +82,7 @@ export class AuthorityService {
       return await this.authorityRepository
           .createQueryBuilder('a')
           .update(Authority)
-          .set({isDelete: 1, deleteTime: formatDate()})
+          .set({ isDelete: 1, deleteTime: formatDate() })
           .whereInIds(params)
           .execute();
     } catch (e) {
@@ -96,7 +96,7 @@ export class AuthorityService {
    */
   public async getAuthorityList(params: QueryAuthorityDto) {
     try {
-      const queryConditionList = ['a.isDelete = :isDelete'];
+      const queryConditionList = [ 'a.isDelete = :isDelete' ];
       if (params.name) {
         queryConditionList.push('a.name LIKE :name');
       }
@@ -126,7 +126,7 @@ export class AuthorityService {
    */
   public async getAuthorityAllList(params: QueryAuthorityDto) {
     try {
-      const queryConditionList = ['a.isDelete = :isDelete'];
+      const queryConditionList = [ 'a.isDelete = :isDelete' ];
       if (params.system) {
         queryConditionList.push('a.system = :system');
       }
@@ -148,14 +148,14 @@ export class AuthorityService {
    */
   public async getMenus(params: QueryMenuDto)  {
     try {
-      const queryConditionList = ['a.isDelete = :isDelete', 'r.id = :id'];
+      const queryConditionList = [ 'a.isDelete = :isDelete', 'r.id = :id' ];
       if (params.system) {
         queryConditionList.push('a.system = :system');
       }
       let id = null;
       const queryCondition = queryConditionList.join(' AND ');
       if (!params.roleId) {
-          const user: User = await this.userRepository.findOne({ name: params.user }, {relations: ['role']});
+          const user: User = await this.userRepository.findOne({ name: params.user }, { relations: [ 'role' ] });
           if (!user) {
               throw new ApiException('用户不存在', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
           }
@@ -194,7 +194,7 @@ export class AuthorityService {
           .orderBy('a.name', 'ASC')
           .getManyAndCount();
       const treeData = listToTree(res[0], 'id', 'parentId', 'children');
-      return  { data: treeData, count: res[1]};
+      return  { data: treeData, count: res[1] };
     } catch (e) {
       throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
     }

@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
+import { Repository } from 'typeorm';
 import { Organization } from '../model/entity/OrganizationEntity';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {User} from '../model/entity/UserEntity';
-import {AddUserDto} from '../model/DTO/organization/AddUserDto';
-import {QueryOrganizationDto} from '../model/DTO/organization/QueryOrganizationDto';
-import { listToTree} from '../utils/treeData';
-import {UpdateOrganizationDto} from '../model/DTO/organization/UpdateOrganizationDto';
-import {DeleteOrganizationDto} from '../model/DTO/organization/DeleteOrganizationDto';
-import {formatDate} from '../utils/dataTime';
-import {CreateOrganizationDto} from '../model/DTO/organization/CreateOrganizationDto';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { User } from '../model/entity/UserEntity';
+import { AddUserDto } from '../model/DTO/organization/AddUserDto';
+import { QueryOrganizationDto } from '../model/DTO/organization/QueryOrganizationDto';
+import { listToTree } from '../utils/treeData';
+import { UpdateOrganizationDto } from '../model/DTO/organization/UpdateOrganizationDto';
+import { DeleteOrganizationDto } from '../model/DTO/organization/DeleteOrganizationDto';
+import { formatDate } from '../utils/dataTime';
+import { CreateOrganizationDto } from '../model/DTO/organization/CreateOrganizationDto';
 
 @Injectable()
 export class OrganizationService {
@@ -29,13 +29,13 @@ export class OrganizationService {
     async creatOrganization(createOrganizationDto: CreateOrganizationDto): Promise<any> {
       try {
         let currentOrgan: Organization;
-        currentOrgan = await this.organizationRepository.findOne({id: createOrganizationDto.parentId});
+        currentOrgan = await this.organizationRepository.findOne({ id: createOrganizationDto.parentId });
         if (!currentOrgan) {
             currentOrgan = new Organization();
         }
         const user =  await this.userRepository
             .createQueryBuilder('u')
-            .where('u.id = :id', { id: createOrganizationDto.leaderId})
+            .where('u.id = :id', { id: createOrganizationDto.leaderId })
             .getOne();
         const newOrganization = new Organization();
         newOrganization.leader = user;
@@ -66,7 +66,7 @@ export class OrganizationService {
     public async addUserToOrganization(addUserDto: AddUserDto) {
         try {
             try {
-                const organization = await this.organizationRepository.findOne(addUserDto.orId, {relations: ['users']});
+                const organization = await this.organizationRepository.findOne(addUserDto.orId, { relations: [ 'users' ] });
                 if (!organization) {
                     throw new ApiException('请先添加组织', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
                 }
@@ -76,7 +76,7 @@ export class OrganizationService {
                     .relation(Organization, 'users')
                     .of(orgId)
                     .addAndRemove(addUserDto.userId, organization.users ? organization.users.map( u => u.id) : []);
-                return await this.organizationRepository.findOne(orgId, {relations: [ 'users' ]});
+                return await this.organizationRepository.findOne(orgId, { relations: [ 'users' ] });
             } catch (e) {
                 throw new ApiException('用户查询失败', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
             }
@@ -91,7 +91,7 @@ export class OrganizationService {
      */
     public async getList(query: QueryOrganizationDto) {
         try {
-            const queryConditionList = ['o.isDelete = :isDelete'];
+            const queryConditionList = [ 'o.isDelete = :isDelete' ];
             if (query.name) {
                 queryConditionList.push('o.name LIKE :name');
             }
@@ -112,7 +112,7 @@ export class OrganizationService {
                     'l.name',
                 ])
                 .getManyAndCount();
-            return  { data: res[0], count: res[1]};
+            return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -124,7 +124,7 @@ export class OrganizationService {
      */
     public async getAllList(query: QueryOrganizationDto) {
         try {
-            const queryConditionList = ['o.isDelete = :isDelete'];
+            const queryConditionList = [ 'o.isDelete = :isDelete' ];
             const queryCondition = queryConditionList.join(' AND ');
             const res = await this.organizationRepository
                 .createQueryBuilder('o')
@@ -138,7 +138,7 @@ export class OrganizationService {
                     'l.name',
                 ])
                 .getManyAndCount();
-            return  { data: res[0], count: res[1]};
+            return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -153,7 +153,7 @@ export class OrganizationService {
                 .createQueryBuilder('o')
                 .getManyAndCount();
             const treeData = listToTree(res[0], 'id', 'parentId', 'children');
-            return  { data: treeData, count: res[1]};
+            return  { data: treeData, count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -170,7 +170,7 @@ export class OrganizationService {
                 .orderBy('u.name', 'ASC')
                 .getManyAndCount();
             const treeData = listToTree(res[0], 'id', 'parentId', 'children');
-            return  { data: treeData, count: res[1]};
+            return  { data: treeData, count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -191,7 +191,7 @@ export class OrganizationService {
             }
             if (Number(params.parentId) !== -1) {
                 try {
-                    const currentOrgan: Organization = await this.organizationRepository.findOne({id: params.parentId});
+                    const currentOrgan: Organization = await this.organizationRepository.findOne({ id: params.parentId });
                     currentOrganName = currentOrgan.name;
                 } catch (e) {
                     throw new ApiException('父级不存在', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
@@ -254,7 +254,7 @@ export class OrganizationService {
                 .createQueryBuilder('r')
                 .leftJoinAndSelect('r.leader', 'l')
                 .leftJoinAndSelect('r.users', 'u')
-                .where('r.id = :id', { id: query})
+                .where('r.id = :id', { id: query })
                 .select([
                     'r',
                     'l.id',

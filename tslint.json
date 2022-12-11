@@ -16,7 +16,16 @@
     "no-console": false,
     "prefer-for-of": false,
     "no-unused-expression": false,
-    "triple-equals": false
+    "triple-equals": false,
+    "forin": false,
+    "variable-name": [
+      true,
+      // ...
+      "allow-leading-underscore",
+      "allow-pascal-case",
+      "allow-snake-case",
+      "allow-trailing-underscore"
+    ]
   },
   "rulesDirectory": []
 }

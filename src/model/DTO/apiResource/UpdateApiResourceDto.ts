@@ -1,5 +1,5 @@
-import {IsString} from 'class-validator';
-import {ApiErrorCode} from '../../../config/ApiErrorCodeEnum';
+import { IsString } from 'class-validator';
+import { ApiErrorCode } from '../../../config/ApiErrorCodeEnum';
 
 export class UpdateApiResourceDto {
     @IsString({ message: 'id不能为空', context: { errorCode: ApiErrorCode.USER_NAME_STRING } })

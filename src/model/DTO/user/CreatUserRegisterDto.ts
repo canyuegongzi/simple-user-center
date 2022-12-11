@@ -1,4 +1,4 @@
-import {IsEmail, IsInt, IsString, Min, Max, IsNotEmpty} from 'class-validator';
+import { IsEmail, IsInt, IsString, Min, Max, IsNotEmpty } from 'class-validator';
 import { ApiErrorCode } from '../../../config/ApiErrorCodeEnum';
 
 export class CreateUserRegisterDto {

@@ -16,7 +16,7 @@ const messageMap = {
     3: '添加成功',
     4: '更新成功',
     5: 'EXCEL失败',
-}
+};
 export class ResultData {
     public code: number;
     public message: string | MessageType;

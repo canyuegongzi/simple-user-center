@@ -15,7 +15,7 @@ export class KafkaModule {
           useValue: new KafkaService(kafkaConfig),
         },
       ],
-      exports: [KafkaService],
+      exports: [ KafkaService ],
     };
   }
 }

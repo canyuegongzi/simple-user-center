@@ -1,6 +1,6 @@
-import {Body, Controller, Get, Headers, Inject, Post, Query, UseInterceptors} from '@nestjs/common';
-import {TaskKafkaProductService} from '../service/TaskKafkaProductService';
-import {KafkaTaskDto} from '../model/DTO/kafka/KafkaTaskDto';
+import { Body, Controller, Get, Headers, Inject, Post, Query, UseInterceptors } from '@nestjs/common';
+import { TaskKafkaProductService } from '../service/TaskKafkaProductService';
+import { KafkaTaskDto } from '../model/DTO/kafka/KafkaTaskDto';
 
 @Controller('kafka')
 export class KafkaTaskController {

@@ -20,5 +20,5 @@ export class QueryUserDto {
 
     pageSize: number;
 
-    isDel: number = 0;
+    isDel = 0;
 }

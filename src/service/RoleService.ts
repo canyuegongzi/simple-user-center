@@ -1,18 +1,18 @@
-import {Injectable, HttpException, Inject} from '@nestjs/common';
+import { Injectable, HttpException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {Column, Repository} from 'typeorm';
+import { Column, Repository } from 'typeorm';
 import { Role } from '../model/entity/RoleEntity';
 import { CreateRoleDto } from '../model/DTO/role/CreateRoleDto';
 import { UpdateRoleDto } from '../model/DTO/role/UpdateRoleDto';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {QueryRoleDto} from '../model/DTO/role/QueryRoleDto';
-import {AddAuthDto} from '../model/DTO/role/AddAuthDto';
-import {Authority} from '../model/entity/AuthorityEntity';
-import {formatDate} from '../utils/dataTime';
-import {ApiResource} from '../model/entity/ApiResourceEntity';
-import {RoleApiResourceEntity} from '../model/entity/RoleApiResourceEntity';
-import {AddResourceRoleDto} from '../model/DTO/apiResource/AddResourceRoleDto';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { QueryRoleDto } from '../model/DTO/role/QueryRoleDto';
+import { AddAuthDto } from '../model/DTO/role/AddAuthDto';
+import { Authority } from '../model/entity/AuthorityEntity';
+import { formatDate } from '../utils/dataTime';
+import { ApiResource } from '../model/entity/ApiResourceEntity';
+import { RoleApiResourceEntity } from '../model/entity/RoleApiResourceEntity';
+import { AddResourceRoleDto } from '../model/DTO/apiResource/AddResourceRoleDto';
 
 @Injectable()
 export class RoleService {
@@ -49,7 +49,7 @@ export class RoleService {
       return await this.roleRepository
       .createQueryBuilder('r')
       .update(Role)
-      .set({desc: role.desc, name: role.name, updateTime: formatDate()})
+      .set({ desc: role.desc, name: role.name, updateTime: formatDate() })
       .where('id = :id', { id: role.id })
       .execute();
     } catch (e) {
@@ -66,7 +66,7 @@ export class RoleService {
       return await this.roleRepository
         .createQueryBuilder()
         .update(Role)
-        .set({isDelete: 1, deleteTime: formatDate()})
+        .set({ isDelete: 1, deleteTime: formatDate() })
         .whereInIds(ids)
         .execute();
     } catch (e) {
@@ -82,7 +82,7 @@ export class RoleService {
     try {
       return await this.roleRepository
         .createQueryBuilder('r')
-        .where('r.id = :id', { id: query})
+        .where('r.id = :id', { id: query })
         .getOne();
     } catch (e) {
         throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -96,7 +96,7 @@ export class RoleService {
     try {
         return await this.roleRepository
           .createQueryBuilder('r')
-          .where('r.code = :code', { code: query})
+          .where('r.code = :code', { code: query })
           .getOne();
       } catch (e) {
         throw new ApiException('角色已经存在', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -109,7 +109,7 @@ export class RoleService {
       try {
           return await this.roleRepository
               .createQueryBuilder('r')
-              .where('r.name = :name', { name: query})
+              .where('r.name = :name', { name: query })
               .getOne();
       } catch (e) {
           throw new ApiException('角色已经存在', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -122,7 +122,7 @@ export class RoleService {
   */
   public async getList(query: QueryRoleDto) {
     try {
-        const queryConditionList = ['r.isDelete = :isDelete'];
+        const queryConditionList = [ 'r.isDelete = :isDelete' ];
         if (query.name) {
             queryConditionList.push('r.name LIKE :name');
         }
@@ -138,7 +138,7 @@ export class RoleService {
             .skip((query.page - 1) * query.pageSize)
             .take(query.pageSize)
             .getManyAndCount();
-        return  { data: res[0], count: res[1]};
+        return  { data: res[0], count: res[1] };
     } catch (e) {
         throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
     }
@@ -150,7 +150,7 @@ export class RoleService {
    */
   public async getAllList() {
       try {
-          const queryConditionList = ['r.isDelete = :isDelete'];
+          const queryConditionList = [ 'r.isDelete = :isDelete' ];
           const queryCondition = queryConditionList.join(' AND ');
           return  await this.roleRepository
               .createQueryBuilder('r')
@@ -172,7 +172,7 @@ export class RoleService {
   public async addAuthToRole(params: AddAuthDto) {
       try {
           try {
-              const role = await this.roleRepository.findOne(params.roleId, {relations: ['authority']});
+              const role = await this.roleRepository.findOne(params.roleId, { relations: [ 'authority' ] });
               if (role === undefined) {
                   throw new ApiException('请先添加角色', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
               }
@@ -182,7 +182,7 @@ export class RoleService {
                   .relation(Role, 'authority')
                   .of(params.roleId)
                   .addAndRemove(authIds, role.authority.map( u => u.id));
-              return await this.roleRepository.findOne(params.roleId, {relations: [ 'authority' ]});
+              return await this.roleRepository.findOne(params.roleId, { relations: [ 'authority' ] });
           } catch (e) {
               throw new ApiException(e.errorMessage || '操作失败', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
           }
@@ -197,7 +197,7 @@ export class RoleService {
   public async addApiResourceToRole(params: AddResourceRoleDto) {
       try {
           try {
-              const role = await this.roleRepository.findOne(params.roleId, {relations: ['authority']});
+              const role = await this.roleRepository.findOne(params.roleId, { relations: [ 'authority' ] });
               if (role === undefined) {
                   console.log(role);
                   throw new ApiException('请先添加角色', ApiErrorCode.ORIZATION_CREATED_FILED, 200);
@@ -212,7 +212,7 @@ export class RoleService {
                   .createQueryBuilder('r')
                   .delete()
                   .from(RoleApiResourceEntity)
-                  .where({roleId: params.roleId})
+                  .where({ roleId: params.roleId })
                   .execute();
               return this.roleApiResourceEntityRepository
                   .createQueryBuilder('r')
@@ -238,14 +238,14 @@ export class RoleService {
           const res = await this.roleRepository
               .createQueryBuilder('r')
               .leftJoinAndSelect('r.authority', 'a')
-              .where('r.id = :id', { id})
+              .where('r.id = :id', { id })
               .select([
                   'r.name',
                   'r.id',
                   'a',
               ])
               .getManyAndCount();
-          return  { data: res[0], count: res[1]};
+          return  { data: res[0], count: res[1] };
       } catch (e) {
           throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
       }
@@ -259,7 +259,7 @@ export class RoleService {
         try {
             const res = await this.roleApiResourceEntityRepository
                 .createQueryBuilder('r')
-                .where('r.roleId = :id', { id})
+                .where('r.roleId = :id', { id })
                 .getManyAndCount();
             const list = res[0].map((item) => {
                 return item.apiResourceId;

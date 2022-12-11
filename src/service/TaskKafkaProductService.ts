@@ -1,8 +1,8 @@
-import { Injectable} from '@nestjs/common';
-import {KafkaService} from '../common/kafka/KafkaService';
-import {KafkaPayload} from '../common/kafka/KafkaMessage';
-import { TASK_PUSH_INFO} from '../config/constant';
-import {KafkaTaskDto} from '../model/DTO/kafka/KafkaTaskDto';
+import { Injectable } from '@nestjs/common';
+import { KafkaService } from '../common/kafka/KafkaService';
+import { KafkaPayload } from '../common/kafka/KafkaMessage';
+import { TASK_PUSH_INFO } from '../config/constant';
+import { KafkaTaskDto } from '../model/DTO/kafka/KafkaTaskDto';
 
 @Injectable()
 export class TaskKafkaProductService {

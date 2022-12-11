@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
-import {SystemService} from '../service/SystemService';
-import {UpdateSystemDto} from '../model/DTO/system/update_system.dto';
-import {QuerySystemDto} from '../model/DTO/system/system_role.dto';
-import {CreateSystemDto} from '../model/DTO/system/create_system.dto';
-import {MessageType, ResultData} from '../common/result/ResultData';
+import { SystemService } from '../service/SystemService';
+import { UpdateSystemDto } from '../model/DTO/system/update_system.dto';
+import { QuerySystemDto } from '../model/DTO/system/system_role.dto';
+import { CreateSystemDto } from '../model/DTO/system/create_system.dto';
+import { MessageType, ResultData } from '../common/result/ResultData';
 
 @Controller('system')
 export class SystemController {

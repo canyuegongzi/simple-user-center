@@ -1,5 +1,5 @@
-import {IsNotEmpty} from 'class-validator';
-import {ApiErrorCode} from '../../../config/ApiErrorCodeEnum';
+import { IsNotEmpty } from 'class-validator';
+import { ApiErrorCode } from '../../../config/ApiErrorCodeEnum';
 
 export class QueryMenuDto {
     system: string;

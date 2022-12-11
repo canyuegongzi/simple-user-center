@@ -1,11 +1,11 @@
 import { OnModuleInit } from '@nestjs/common';
 import { SUBSCRIBER_OBJ_REF_MAP } from './KafkaDecorator';
-import {EventEmitter} from "events";
+import { EventEmitter } from 'events';
 
 export abstract class AbstractKafkaConsumer extends EventEmitter implements OnModuleInit {
 
   constructor() {
-    super()
+    super();
   }
 
   protected abstract registerTopic();

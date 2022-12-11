@@ -1,5 +1,5 @@
-import {IsString} from 'class-validator';
-import {ApiErrorCode} from '../../../config/ApiErrorCodeEnum';
+import { IsString } from 'class-validator';
+import { ApiErrorCode } from '../../../config/ApiErrorCodeEnum';
 
 export class CreateApiResourceDto {
     @IsString({ message: '名称格式不正确', context: { errorCode: ApiErrorCode.USER_NAME_STRING } })

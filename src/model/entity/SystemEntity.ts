@@ -8,7 +8,7 @@ export class System {
     @Column({ length: 500 })
     name: string;
 
-    @Column('text', {nullable: true})
+    @Column('text', { nullable: true })
     desc: string;
 
     @Column()
@@ -20,15 +20,15 @@ export class System {
     @Column()
     attrValue: string;
 
-    @Column({default: 0})
+    @Column({ default: 0 })
     isDelete: number;
 
-    @Column({default: '', nullable: true })
+    @Column({ default: '', nullable: true })
     crateTime: string;
 
-    @Column({default: '', nullable: true })
+    @Column({ default: '', nullable: true })
     updateTime: string;
 
-    @Column({default: '', nullable: true })
+    @Column({ default: '', nullable: true })
     deleteTime: string;
 }

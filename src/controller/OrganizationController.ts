@@ -2,13 +2,13 @@ import { Body, Controller, Get, Inject, Post, Query, Req, UseGuards, UseIntercep
 import { TransformInterceptor } from '../common/shared/interceptors/TransformInterceptor';
 import { LoggingInterceptor } from '../common/shared/interceptors/LoggingInterceptor';
 import { OrganizationService } from '../service/OrganizationService';
-import {CreateOrganizationDto} from '../model/DTO/organization/CreateOrganizationDto';
-import {AddUserDto} from '../model/DTO/organization/AddUserDto';
-import {QueryOrganizationDto} from '../model/DTO/organization/QueryOrganizationDto';
-import {UpdateOrganizationDto} from '../model/DTO/organization/UpdateOrganizationDto';
-import {DeleteOrganizationDto} from '../model/DTO/organization/DeleteOrganizationDto';
-import {MessageType, ResultData} from '../common/result/ResultData';
-import {Organization} from '../model/entity/OrganizationEntity';
+import { CreateOrganizationDto } from '../model/DTO/organization/CreateOrganizationDto';
+import { AddUserDto } from '../model/DTO/organization/AddUserDto';
+import { QueryOrganizationDto } from '../model/DTO/organization/QueryOrganizationDto';
+import { UpdateOrganizationDto } from '../model/DTO/organization/UpdateOrganizationDto';
+import { DeleteOrganizationDto } from '../model/DTO/organization/DeleteOrganizationDto';
+import { MessageType, ResultData } from '../common/result/ResultData';
+import { Organization } from '../model/entity/OrganizationEntity';
 
 @Controller('organization')
 @UseInterceptors(LoggingInterceptor, TransformInterceptor)

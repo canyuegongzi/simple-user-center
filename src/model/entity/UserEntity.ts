@@ -16,7 +16,7 @@ export class User {
   @Column({ length: 500 })
   name: string;
 
-  @Column({nullable: true, type: 'text'})
+  @Column({ nullable: true, type: 'text' })
   desc: string;
 
   @Column({
@@ -26,22 +26,22 @@ export class User {
   })
   password: string;
 
-  @Column( {select: false} )
+  @Column( { select: false } )
   email: string;
 
-  @Column( { default: ''} )
+  @Column( { default: '' } )
   phone: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   age: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   address: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   nick: string;
 
-  @Column({default: 0})
+  @Column({ default: 0 })
   status: number;
 
   @ManyToOne(type => Role, role => role.users)
@@ -50,18 +50,18 @@ export class User {
   @ManyToMany( type => Organization, orientation => orientation.users)
   organizations: Organization[];
 
-  @Column({default: 0})
+  @Column({ default: 0 })
   isDelete: number;
 
-  @Column({default: false, comment: '是否完成身份验证'})
+  @Column({ default: false, comment: '是否完成身份验证' })
   verification: boolean;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   crateTime: string;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   updateTime: string;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   deleteTime: string;
 }

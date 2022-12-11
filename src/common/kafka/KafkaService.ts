@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Consumer, Kafka, Producer } from 'kafkajs';
-import {SUBSCRIBER_FIXED_FN_REF_MAP, SUBSCRIBER_FN_REF_MAP, SUBSCRIBER_OBJ_REF_MAP} from './KafkaDecorator';
+import { SUBSCRIBER_FIXED_FN_REF_MAP, SUBSCRIBER_FN_REF_MAP, SUBSCRIBER_OBJ_REF_MAP } from './KafkaDecorator';
 import { KafkaConfig, KafkaPayload } from './KafkaMessage';
 
 @Injectable()
@@ -59,7 +59,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
         const functionRef = SUBSCRIBER_FN_REF_MAP.get(topic);
         const object = SUBSCRIBER_OBJ_REF_MAP.get(topic);
         // bind the subscribed functions to topic
-        await functionRef.apply(object, [message.value.toString()]);
+        await functionRef.apply(object, [ message.value.toString() ]);
       },
     });
   }
@@ -71,7 +71,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
         const functionRef = SUBSCRIBER_FIXED_FN_REF_MAP.get(topic);
         const object = SUBSCRIBER_OBJ_REF_MAP.get(topic);
         // bind the subscribed functions to topic
-        await functionRef.apply(object, [message.value.toString()]);
+        await functionRef.apply(object, [ message.value.toString() ]);
       },
     });
   }
@@ -81,7 +81,7 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
     const metadata = await this.producer
       .send({
         topic: kafkaTopic,
-        messages: [{ value: JSON.stringify(kafkaMessage) }],
+        messages: [ { value: JSON.stringify(kafkaMessage) } ],
       })
       .catch(e => console.error(e.message, e));
     await this.producer.disconnect();

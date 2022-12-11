@@ -1,9 +1,9 @@
-import {CommonConfigInterface} from './CommonConfigInterface';
+import { CommonConfigInterface } from './CommonConfigInterface';
 // import { parse, stringify } from 'yaml';
 // tslint:disable-next-line:no-var-requires
 const YAML = require('yamljs');
 import * as fs from 'fs';
-import {join} from 'path';
+import { join } from 'path';
 const isDevelopment: boolean = process.env.NODE_ENV === 'development';
 const devConfig = fs.readFileSync(join(__dirname, '.', 'dev.yaml'), 'utf-8');
 const proConfig = fs.readFileSync(join(__dirname, '.', 'pro.yaml'), 'utf-8');
@@ -52,4 +52,4 @@ export class CommonConfigService {
         } as CommonConfigInterface;
     }
 }
-export {emailConfig, serverConfig};
+export { emailConfig, serverConfig };

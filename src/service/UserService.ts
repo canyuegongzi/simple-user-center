@@ -1,20 +1,20 @@
-import {Inject, Injectable} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getConnection  } from 'typeorm';
 import { CreateUserDto } from '../model/DTO/user/CreatUserDto';
 import { LoginParamsDto } from '../model/DTO/user/LoginParamsDto';
-import {Role} from '../model/entity/RoleEntity';
-import {QueryUserDto} from '../model/DTO/user/QueryUserDto';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {User} from '../model/entity/UserEntity';
-import {formatDate} from '../utils/dataTime';
-import {emailConfig} from '../config/CommonConfigService';
-import {CreateUserRegisterDto} from '../model/DTO/user/CreatUserRegisterDto';
-import {RedisCacheService} from './RedisCacheService';
+import { Role } from '../model/entity/RoleEntity';
+import { QueryUserDto } from '../model/DTO/user/QueryUserDto';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { User } from '../model/entity/UserEntity';
+import { formatDate } from '../utils/dataTime';
+import { emailConfig } from '../config/CommonConfigService';
+import { CreateUserRegisterDto } from '../model/DTO/user/CreatUserRegisterDto';
+import { RedisCacheService } from './RedisCacheService';
 import * as nodemailer from 'nodemailer';
-import {UniqueUser} from '../model/DTO/user/UniqueUser';
-import {Organization} from '../model/entity/OrganizationEntity';
+import { UniqueUser } from '../model/DTO/user/UniqueUser';
+import { Organization } from '../model/entity/OrganizationEntity';
 
 @Injectable()
 export class UserService {
@@ -36,7 +36,7 @@ export class UserService {
       try {
         role =  await this.roleRepository
             .createQueryBuilder('r')
-            .where('r.id = :id', { id: user.roleId || 0})
+            .where('r.id = :id', { id: user.roleId || 0 })
             .getOne();
       } catch (e) {
         throw new ApiException('角色不存在', ApiErrorCode.USER_LIST_FILED, 200);
@@ -58,7 +58,7 @@ export class UserService {
               address: user.address,
               phone: user.phone,
               age: user.age,
-            }])
+            } ])
             .execute();
       } catch (e) {
         throw new ApiException('注册失败', ApiErrorCode.USER_LIST_FILED, 200);
@@ -78,7 +78,7 @@ export class UserService {
           try {
               role =  await this.roleRepository
                   .createQueryBuilder('r')
-                  .where('r.name = :name', { name: 'user'})
+                  .where('r.name = :name', { name: 'user' })
                   .getOne();
           } catch (e) {
               throw new ApiException('角色不存在', ApiErrorCode.USER_LIST_FILED, 200);
@@ -97,7 +97,7 @@ export class UserService {
                       verification: true,
                       email: user.email,
                       nick: user.nick,
-                  }])
+                  } ])
                   .execute();
           } catch (e) {
               throw new ApiException('注册失败', ApiErrorCode.USER_LIST_FILED, 200);
@@ -114,8 +114,8 @@ export class UserService {
     try {
       return await this.userRepository
         .createQueryBuilder('u')
-        .where('u.name = :name', { name: params.name})
-        .andWhere('u.password = :password', { password: params.password})
+        .where('u.name = :name', { name: params.name })
+        .andWhere('u.password = :password', { password: params.password })
         .getOne();
     } catch (e) {
         throw new ApiException('登录失败', ApiErrorCode.USER_LIST_FILED, 200);
@@ -142,7 +142,7 @@ export class UserService {
   public async getUserInfo(query: string) {
       return await this.userRepository
           .createQueryBuilder('u')
-          .where('u.id = :id', { id: query})
+          .where('u.id = :id', { id: query })
           .leftJoinAndSelect('u.role', 'role')
           .select([
               'u',
@@ -160,7 +160,7 @@ export class UserService {
    * @param name
    */
   public async findOneByName(name: string): Promise<User> {
-      const queryConditionList = ['u.isDelete = :isDelete', 'u.name = :name'];
+      const queryConditionList = [ 'u.isDelete = :isDelete', 'u.name = :name' ];
       const leftJoinConditionList = [];
       const leftJoinConditionOrganizations = {};
       const queryCondition = queryConditionList.join(' AND ');
@@ -196,7 +196,7 @@ export class UserService {
    */
    public async getList(query: QueryUserDto) {
         try {
-          const queryConditionList = ['u.isDelete = :isDelete'];
+          const queryConditionList = [ 'u.isDelete = :isDelete' ];
           const leftJoinConditionList = [];
           let leftJoinConditionOrganizations = {};
           if (query.roleId) {
@@ -220,7 +220,7 @@ export class UserService {
           if (query.orgId) {
             leftJoinConditionList.push('org.id = :id');
             queryConditionList.push('org.id = :organizationId');
-            leftJoinConditionOrganizations = {id: query.orgId};
+            leftJoinConditionOrganizations = { id: query.orgId };
           }
           const queryCondition = queryConditionList.join(' AND ');
           const leftJoinCondition = leftJoinConditionList.join('');
@@ -239,11 +239,11 @@ export class UserService {
                                                       endAge: Number(query.endAge),
                 })
                 .orderBy('u.name', 'ASC')
-                .addSelect(['u.email'])
+                .addSelect([ 'u.email' ])
                 .skip((query.page - 1) * query.pageSize)
                 .take(query.pageSize)
                 .getManyAndCount();
-          return  { data: res[0], count: res[1]};
+          return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -255,7 +255,7 @@ export class UserService {
      */
     public async getAllList() {
         try {
-            const queryConditionList = ['u.isDelete = :isDelete'];
+            const queryConditionList = [ 'u.isDelete = :isDelete' ];
             const leftJoinConditionList = [];
             const queryCondition = queryConditionList.join(' AND ');
             const res = await this.userRepository
@@ -265,7 +265,7 @@ export class UserService {
                 })
                 .orderBy('u.name', 'ASC')
                 .getManyAndCount();
-            return  { data: res[0], count: res[1]};
+            return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.USER_LIST_FILED, 200);
         }
@@ -293,7 +293,7 @@ export class UserService {
       return await this.userRepository
           .createQueryBuilder('u')
           .update(User)
-          .set({isDelete: 1, deleteTime: formatDate()})
+          .set({ isDelete: 1, deleteTime: formatDate() })
           .whereInIds(params)
           .execute();
     } catch (e) {
@@ -311,7 +311,7 @@ export class UserService {
         try {
           role = await this.roleRepository
               .createQueryBuilder('r')
-              .where('r.id = :id', { id: createUserDto.roleId || 0})
+              .where('r.id = :id', { id: createUserDto.roleId || 0 })
               .getOne();
         } catch (e) {
           throw new ApiException('角色不存在', ApiErrorCode.USER_LIST_FILED, 200);
@@ -319,7 +319,7 @@ export class UserService {
         return this.roleRepository
             .createQueryBuilder('u')
             .update(User)
-            .set({desc: createUserDto.desc, nick: createUserDto.nick, name: createUserDto.name,
+            .set({ desc: createUserDto.desc, nick: createUserDto.nick, name: createUserDto.name,
               password: createUserDto.password, role, address: createUserDto.address,
               email: createUserDto.email, phone: createUserDto.phone, age: createUserDto.age, updateTime: formatDate() })
             .where('id = :id', { id: createUserDto.id })
@@ -336,7 +336,7 @@ export class UserService {
   public async forgetPass(params: string) {
       try {
           let user: User;
-          const queryConditionList = ['u.isDelete = :isDelete', 'u.email = :email'];
+          const queryConditionList = [ 'u.isDelete = :isDelete', 'u.email = :email' ];
           const queryCondition = queryConditionList.join(' AND ');
           try {
               user = await this.userRepository
@@ -362,7 +362,7 @@ export class UserService {
           };
           try {
               const sendEmailResult = await this.sendMailer(mailOptions);
-              return { success: true, data: sendEmailResult, message: '发送成功', code: 200};
+              return { success: true, data: sendEmailResult, message: '发送成功', code: 200 };
           } catch (e) {
 
               throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
@@ -417,7 +417,7 @@ export class UserService {
       try {
           const sendEmailResult = await this.sendMailer(mailOptions);
           await this.redisCacheService.set(email, code, 3 * 60 * 1000);
-          return { success: true, data: sendEmailResult, message: '发送成功', code: 200};
+          return { success: true, data: sendEmailResult, message: '发送成功', code: 200 };
       } catch (e) {
           throw new ApiException(e.message, ApiErrorCode.USER_LIST_FILED, 200);
       }
@@ -475,11 +475,11 @@ export class UserService {
    * @param user
    */
   public getTokenUserInfo(user: User) {
-        const { id, name, desc, address, nick, verification, age, phone, crateTime, role, organizations} = user;
+        const { id, name, desc, address, nick, verification, age, phone, crateTime, role, organizations } = user;
         return  {
             id, name, desc, address, nick, verification, age, phone, crateTime,
             role: (() => {
-                return role ? { id: role.id, name: role.name, desc: role.desc} : null;
+                return role ? { id: role.id, name: role.name, desc: role.desc } : null;
             })(),
             organizations: (() => {
                 return organizations ? organizations.map((item: Organization) => {

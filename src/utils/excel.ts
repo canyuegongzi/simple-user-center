@@ -36,7 +36,7 @@ process.on(
 export const importExcel = async (column, file, hasHeader, type= 'buffer') => {
     try {
         const rows = [];
-        let [meidaIndex, cells] = [0, 0];
+        let [ meidaIndex, cells ] = [ 0, 0 ];
         const workbook = new Excel.Workbook();
         if (type === 'buffer') {
             await workbook.xlsx.load(file);
@@ -283,7 +283,7 @@ const getImagePath = (filePath: string, prefix: string) => {
  * @param {*} fllePath url路径
  * @param {*} separator 磁盘映射目录
  */
-const getUrlPath = (filePath: string, separator: string = 'pic') => {
+const getUrlPath = (filePath: string, separator = 'pic') => {
     return normalize(`/image${filePath.split(separator).pop()}`);
 };
 
@@ -293,7 +293,7 @@ const getUrlPath = (filePath: string, separator: string = 'pic') => {
  */
 const richText2String = values => {
     let str = '';
-    for (const [, value] of Object.entries(values.richText)) {
+    for (const [ , value ] of Object.entries(values.richText)) {
         str += _.get(value, 'text', '');
     }
 

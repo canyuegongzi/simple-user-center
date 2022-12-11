@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Authority } from '../model/entity/AuthorityEntity';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {Role} from '../model/entity/RoleEntity';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { Role } from '../model/entity/RoleEntity';
 import { User } from '../model/entity/UserEntity';
 
 @Injectable()
@@ -27,14 +27,14 @@ export class ConfigService {
             const res = await this.roleRepository
                 .createQueryBuilder('r')
                 .leftJoinAndSelect('r.authority', 'a')
-                .where('r.id = :id', { id})
+                .where('r.id = :id', { id })
                 .select([
                     'r.name',
                     'r.id',
                     'a',
                 ])
                 .getManyAndCount();
-            return  { data: res[0], count: res[1]};
+            return  { data: res[0], count: res[1] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
         }
@@ -48,7 +48,7 @@ export class ConfigService {
             const res = await this.userRepository
                 .createQueryBuilder('u')
                 .leftJoinAndSelect('u.role', 'r')
-                .where('u.id = :id', { id: user.id})
+                .where('u.id = :id', { id: user.id })
                 .getOne();
             return res;
         } catch (e) {

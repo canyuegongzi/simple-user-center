@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Inject, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthorityService } from '../service/AuthorityService';
-import {CreateAuthorityDto} from '../model/DTO/authority/CreateAuthorityDto';
-import {UpdateAuthorityDto} from '../model/DTO/authority/UpdateAuthorityDto';
-import {QueryAuthorityDto} from '../model/DTO/authority/QueryAuthorityDto';
-import {QueryMenuDto} from '../model/DTO/authority/QueryMenusDto';
-import {MessageType, ResultData} from '../common/result/ResultData';
+import { CreateAuthorityDto } from '../model/DTO/authority/CreateAuthorityDto';
+import { UpdateAuthorityDto } from '../model/DTO/authority/UpdateAuthorityDto';
+import { QueryAuthorityDto } from '../model/DTO/authority/QueryAuthorityDto';
+import { QueryMenuDto } from '../model/DTO/authority/QueryMenusDto';
+import { MessageType, ResultData } from '../common/result/ResultData';
 
 @Controller('authority')
 export class AuthorityController {
@@ -66,7 +66,7 @@ export class AuthorityController {
     public async getAuthorityList(@Query() params: QueryAuthorityDto) {
         try {
             const res = await this.authorityService.getAuthorityList(params);
-            return new ResultData(MessageType.GETLIST, {data: res[0], count: res[1]} , true);
+            return new ResultData(MessageType.GETLIST, { data: res[0], count: res[1] } , true);
         } catch (e) {
             return new ResultData(e.errorMessage, null, false);
         }
@@ -80,7 +80,7 @@ export class AuthorityController {
     public async getAuthorityAllList(@Query() params: QueryAuthorityDto) {
         try {
             const res = await this.authorityService.getAuthorityAllList(params);
-            return new ResultData(MessageType.GETLIST, {data: res[0], count: res[1]} , true);
+            return new ResultData(MessageType.GETLIST, { data: res[0], count: res[1] } , true);
         } catch (e) {
             return new ResultData(e.errorMessage, null, false);
         }

@@ -10,7 +10,7 @@ export class Role {
   @Column({ length: 500 })
   name: string;
 
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   desc: string;
 
   @Column()
@@ -23,15 +23,15 @@ export class Role {
   @OneToMany(type => User, user => user.role)
   users: User[];
 
-  @Column({default: 0})
+  @Column({ default: 0 })
   isDelete: number;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   crateTime: string;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   updateTime: string;
 
-  @Column({default: '', nullable: true })
+  @Column({ default: '', nullable: true })
   deleteTime: string;
 }

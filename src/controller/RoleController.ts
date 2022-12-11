@@ -1,13 +1,13 @@
-import {Body, Controller, Get, Headers, Inject, Post, Query, Req, UseGuards, UseInterceptors} from '@nestjs/common';
+import { Body, Controller, Get, Headers, Inject, Post, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { RoleService } from '../service/RoleService';
 import { CreateRoleDto } from '../model/DTO/role/CreateRoleDto';
 import { UpdateRoleDto } from '../model/DTO/role/UpdateRoleDto';
-import {QueryRoleDto} from '../model/DTO/role/QueryRoleDto';
-import {AddAuthDto} from '../model/DTO/role/AddAuthDto';
-import {AddResourceRoleDto} from '../model/DTO/apiResource/AddResourceRoleDto';
-import {MessageType, ResultData} from '../common/result/ResultData';
-import {UserService} from '../service/UserService';
-import {Role} from '../model/entity/RoleEntity';
+import { QueryRoleDto } from '../model/DTO/role/QueryRoleDto';
+import { AddAuthDto } from '../model/DTO/role/AddAuthDto';
+import { AddResourceRoleDto } from '../model/DTO/apiResource/AddResourceRoleDto';
+import { MessageType, ResultData } from '../common/result/ResultData';
+import { UserService } from '../service/UserService';
+import { Role } from '../model/entity/RoleEntity';
 
 @Controller('role')
 export class RoleController {

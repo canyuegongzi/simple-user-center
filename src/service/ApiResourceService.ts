@@ -1,20 +1,20 @@
-import {Injectable, Inject, Body, Query} from '@nestjs/common';
+import { Injectable, Inject, Body, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {DeleteResult, InsertResult, Repository, UpdateResult} from 'typeorm';
-import {System} from '../model/entity/SystemEntity';
-import {ApiResource} from '../model/entity/ApiResourceEntity';
-import {RoleApiResourceEntity} from '../model/entity/RoleApiResourceEntity';
-import {RedisCacheService} from './RedisCacheService';
-import {CreateApiResourceDto} from '../model/DTO/apiResource/CreateApiResourceDto';
-import {MessageType, ResultData} from '../common/result/ResultData';
-import {UpdateApiResourceDto} from '../model/DTO/apiResource/UpdateApiResourceDto';
-import {QueryApiResourceDto} from '../model/DTO/apiResource/QueryApiResourceDto';
-import {DeleteApiResourceDto} from '../model/DTO/apiResource/DeleteApiResourceDto';
-import {formatDate} from '../utils/dataTime';
-import {ApiException} from '../common/error/exceptions/ApiException';
-import {ApiErrorCode} from '../config/ApiErrorCodeEnum';
-import {exportExcel, importExcel} from '../utils/excel';
-import {listToTree} from '../utils/treeData';
+import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
+import { System } from '../model/entity/SystemEntity';
+import { ApiResource } from '../model/entity/ApiResourceEntity';
+import { RoleApiResourceEntity } from '../model/entity/RoleApiResourceEntity';
+import { RedisCacheService } from './RedisCacheService';
+import { CreateApiResourceDto } from '../model/DTO/apiResource/CreateApiResourceDto';
+import { MessageType, ResultData } from '../common/result/ResultData';
+import { UpdateApiResourceDto } from '../model/DTO/apiResource/UpdateApiResourceDto';
+import { QueryApiResourceDto } from '../model/DTO/apiResource/QueryApiResourceDto';
+import { DeleteApiResourceDto } from '../model/DTO/apiResource/DeleteApiResourceDto';
+import { formatDate } from '../utils/dataTime';
+import { ApiException } from '../common/error/exceptions/ApiException';
+import { ApiErrorCode } from '../config/ApiErrorCodeEnum';
+import { exportExcel, importExcel } from '../utils/excel';
+import { listToTree } from '../utils/treeData';
 
 @Injectable()
 export class ApiResourceService {
@@ -36,7 +36,7 @@ export class ApiResourceService {
                 .createQueryBuilder('r')
                 .insert()
                 .into(ApiResource)
-                .values([{
+                .values([ {
                     name: params.name,
                     code: params.code,
                     type: params.type,
@@ -46,7 +46,7 @@ export class ApiResourceService {
                     crateTime: formatDate(),
                     value: params.value ? params.value : '',
                     desc: params.desc,
-                    parentId: params.parentId }])
+                    parentId: params.parentId } ])
                 .execute();
         } catch (e) {
             throw new ApiException('操作失败', ApiErrorCode.ROLE_LIST_FAILED, 200);
@@ -87,7 +87,7 @@ export class ApiResourceService {
      */
     public async getApiList(params: QueryApiResourceDto): Promise<[ApiResource[], number]> {
         try {
-            const queryConditionList = ['r.isDelete = :isDelete', 'r.type = :type'];
+            const queryConditionList = [ 'r.isDelete = :isDelete', 'r.type = :type' ];
             if (params.name) {
                 queryConditionList.push('r.name LIKE :name');
             }
@@ -125,7 +125,7 @@ export class ApiResourceService {
      */
     public async getSystemList(name: string): Promise<[ApiResource[], number]> {
         try {
-            const queryConditionList = ['r.isDelete = :isDelete', 'r.type = :type' ];
+            const queryConditionList = [ 'r.isDelete = :isDelete', 'r.type = :type' ];
             if (name) {
                 queryConditionList.push('r.name = :name');
             }
@@ -150,7 +150,7 @@ export class ApiResourceService {
      */
     public async getModuleBySystem(system: string): Promise<[ApiResource[], number]> {
         try {
-            const queryConditionList = ['r.isDelete = :isDelete', 'r.type = :type'];
+            const queryConditionList = [ 'r.isDelete = :isDelete', 'r.type = :type' ];
             if (system) {
                 queryConditionList.push('r.system = :system');
             }
@@ -175,7 +175,7 @@ export class ApiResourceService {
      */
     public async deleteResource(params: DeleteApiResourceDto): Promise<DeleteResult> {
         try {
-            const type: number = Number(params.type);
+            const type = Number(params.type);
             switch (type) {
                 case 3:
                     return await this.apiResourceRepository
@@ -190,7 +190,7 @@ export class ApiResourceService {
                         .createQueryBuilder('r')
                         .delete()
                         .from(ApiResource)
-                        .where({module: params.module})
+                        .where({ module: params.module })
                         .whereInIds(params.ids.map(item => Number(item)))
                         .execute();
                 case 1:
@@ -198,7 +198,7 @@ export class ApiResourceService {
                         .createQueryBuilder('r')
                         .delete()
                         .from(ApiResource)
-                        .where({module: params.module})
+                        .where({ module: params.module })
                         .whereInIds(params.ids.map(item => Number(item)))
                         .execute();
                     break;
@@ -217,7 +217,7 @@ export class ApiResourceService {
      */
     public async uniqueSystemCode(system: string): Promise<boolean> {
         try {
-            const result = await this.apiResourceRepository.findOne({code: system});
+            const result = await this.apiResourceRepository.findOne({ code: system });
             return !!!result;
         } catch (e) {
             throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
@@ -232,7 +232,7 @@ export class ApiResourceService {
      */
     public async  uniqueModuleCode(moduleCode: string): Promise<boolean> {
         try {
-            const result = await this.apiResourceRepository.findOne({code: moduleCode});
+            const result = await this.apiResourceRepository.findOne({ code: moduleCode });
             return !!!result;
         } catch (e) {
             throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
@@ -245,7 +245,7 @@ export class ApiResourceService {
      */
     public async uniqueApiCode(apicode: string): Promise<boolean> {
         try {
-            const result = await this.apiResourceRepository.findOne({code: apicode});
+            const result = await this.apiResourceRepository.findOne({ code: apicode });
             return !!!result;
         } catch (e) {
             throw new ApiException('操作失败', ApiErrorCode.AUTHORITY_DELETE_FILED, 200);
@@ -278,7 +278,7 @@ export class ApiResourceService {
         });
         modulesName = Array.from(new Set(modulesName));
         for (let i = 0; i < modulesName.length; i++) {
-            const currentModule = await this.apiResourceRepository.findOne({code: modulesName[i]});
+            const currentModule = await this.apiResourceRepository.findOne({ code: modulesName[i] });
             if (currentModule) {
                 moduleMap.set(modulesName[i], currentModule);
             }
@@ -375,7 +375,7 @@ export class ApiResourceService {
                 .orderBy('a.name', 'ASC')
                 .getManyAndCount();
             const treeData = listToTree(res[0], 'id', 'parentId', 'children');
-            return  { data: treeData, count: res[1], listData: res[0]};
+            return  { data: treeData, count: res[1], listData: res[0] };
         } catch (e) {
             throw new ApiException('查询失败', ApiErrorCode.AUTHORITY_LIST_FILED, 200);
         }

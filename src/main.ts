@@ -7,7 +7,7 @@ import * as session from 'express-session';
 import { HttpExceptionFilter } from './common/error/filters/HttpExceptionFilter';
 import { ApiParamsValidationPipe } from './common/error/pipe/ApiParamsValidationPipe';
 import * as compression from 'compression';
-import {serverConfig as config} from './config/CommonConfigService';
+import { serverConfig as config } from './config/CommonConfigService';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

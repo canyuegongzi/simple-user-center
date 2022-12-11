@@ -1,6 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({name: 'role_api_resource'})
+@Entity({ name: 'role_api_resource' })
 export class RoleApiResourceEntity {
     @PrimaryGeneratedColumn()
     id?: number;
@@ -8,6 +8,6 @@ export class RoleApiResourceEntity {
     @Column({ comment: '角色id', nullable: false })
     roleId: number;
 
-    @Column({nullable: true, comment: '资源id'})
+    @Column({ nullable: true, comment: '资源id' })
     apiResourceId: number;
 }

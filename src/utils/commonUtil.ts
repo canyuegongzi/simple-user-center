@@ -16,7 +16,7 @@ export function enumToArray<E>(Enum: any): E[] {
  * @param {string} charSet 指定字符集
  * @returns {string} 生成字符串
  */
-export const randomString = (length: number = 8, charSet?: string): string => {
+export const randomString = (length = 8, charSet?: string): string => {
   charSet =
     charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   // tslint:disable-next-line:no-shadowed-variable
