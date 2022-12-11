@@ -127,6 +127,7 @@ export class RoleController {
     /**
      * 查询角色权限
      * @param id
+     * @param token
      */
     @Get('authByRole')
     public async getAuthByRole(@Query('id') id: any,  @Headers('token') token: string) {
